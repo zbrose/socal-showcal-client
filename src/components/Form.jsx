@@ -1,29 +1,32 @@
 import axios from 'axios'
 import {useState} from 'react'
-import {useNavigate, Link} from 'react-router-dom'
+import {useNavigate, Link, useParams} from 'react-router-dom'
 
-function Form({foundEvent, setTrigger}) {
+function Form({foundEvent, setTrigger, currentUser}) {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({...foundEvent})
 
-    
+
     const handleSubmit = e => {
         e.preventDefault()
+        const token = localStorage.getItem('jwt')
+        const config = {
+            headers: { Authorization: `${token}` }
+        };
         if (!foundEvent){
-            axios.post(`${process.env.REACT_APP_SERVER_URL}/events/new`, formData)
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/events/new`, formData, config)
             .then(response=>{
                 console.log(response.data)
                 setTrigger('created')
-                navigate('/events')
+                navigate('/')
             })
             .catch(console.log)
-            console.log('NEW EVENT CREATED')
         } else {
-            axios.put(`${process.env.REACT_APP_SERVER_URL}/events/${foundEvent._id}/edit`, formData)
+            axios.put(`${process.env.REACT_APP_SERVER_URL}/events/${foundEvent._id}/edit`, formData, config)
             .then(response=>{
                 console.log(response.data)
                 setTrigger('edited')
-                navigate('/events')
+                navigate('/')
             })
             .catch(console.log)
         }
@@ -89,7 +92,7 @@ function Form({foundEvent, setTrigger}) {
 
             <input type="submit" />
         </form>
-        <Link to='/events'> Back </Link>
+        <Link to='/'> Back </Link>
     </div>
      )
 }

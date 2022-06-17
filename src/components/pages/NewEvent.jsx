@@ -1,9 +1,9 @@
 import Form from "../Form";
 
-function NewEvent({setTrigger}) {
+function NewEvent({setTrigger, currentUser}) {
     return ( 
         <div>
-            <Form setTrigger={setTrigger} />
+            <Form setTrigger={setTrigger} currentUser={currentUser}/>
         </div>
     )
 }
