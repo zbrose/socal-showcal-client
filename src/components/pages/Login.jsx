@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 
 function Login({currentUser, setCurrentUser}) {
     const [form, setForm] = useState({
@@ -35,7 +35,7 @@ function Login({currentUser, setCurrentUser}) {
     if(currentUser) return <Navigate to='/' />
     return ( 
         <div>
-            <h3>Login form</h3>
+            <h1>Login: </h1>
             <p>{msg ? `the server has a message for you: ${msg}` :''}</p>
             <form onSubmit={handleFormSubmit}>
 
@@ -58,6 +58,7 @@ function Login({currentUser, setCurrentUser}) {
                 <input type="submit" />
 
             </form>
+            <Link to='/'>Back</Link>
         </div>
      )
 }

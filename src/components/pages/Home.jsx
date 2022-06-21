@@ -6,11 +6,12 @@ const eventsList = events.map((event,i)=>{
     return <div key={`keyone=${i}`}><Event setTrigger={setTrigger} event={event} currentUser={currentUser}/></div>
 })
 
+
+
     return ( 
         <>
-        {/* <Link to={'/events/new'}>Create an event</Link> */}
             <div className="flex-container">
-                {eventsList}
+                {events[0] ? eventsList  : <h2 style={{margin: '0 auto', }}>No Upcoming Events</h2>}
             </div>
         </>
 

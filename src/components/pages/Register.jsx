@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 
 function Register({setCurrentUser, currentUser}) {
     const [form, setForm] = useState({
@@ -83,6 +83,7 @@ function Register({setCurrentUser, currentUser}) {
             <input type="submit" />
 
         </form>
+        <Link to='/'>Back</Link>
         </div>
      );
 }

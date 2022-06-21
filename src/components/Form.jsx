@@ -61,9 +61,14 @@ function Form({foundEvent, setTrigger, currentUser}) {
             />
 
             <label htmlFor='city'>City: </label>
-            <input type='' id ='city'
+            <input type='text' id ='city'
             value={formData.city}
             onChange={e=>setFormData({...formData, city: e.target.value})}
+            />
+            <label htmlFor='state'>State: </label>
+            <input type='text' id ='state'
+            value={formData.state}
+            onChange={e=>setFormData({...formData, state: e.target.value})}
             />
 
             <label htmlFor='zipcode'>Zip: </label>
@@ -82,6 +87,12 @@ function Form({foundEvent, setTrigger, currentUser}) {
             <input type='text' id ='genre'
             value={formData.genre}
             onChange={e=>setFormData({...formData, genre: e.target.value})}
+            />
+
+            <label htmlFor='genre'>Event Link: </label>
+            <input type='text' id ='link'
+            value={formData.link}
+            onChange={e=>setFormData({...formData, link: e.target.value})}
             />
 
             <label htmlFor='details'>Details: </label>
