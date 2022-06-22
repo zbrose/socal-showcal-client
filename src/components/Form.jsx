@@ -1,11 +1,11 @@
 import axios from 'axios'
+import venues from './venues'
 import {useState} from 'react'
 import {useNavigate, Link, useParams} from 'react-router-dom'
 
 function Form({foundEvent, setTrigger, currentUser}) {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({...foundEvent})
-
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -32,6 +32,38 @@ function Form({foundEvent, setTrigger, currentUser}) {
         }
     }
 
+    const handleChange = e=> {
+        const sel = document.querySelector('select')
+        const venueName = sel.options[sel.selectedIndex].text
+        setFormData({...formData, address: e.target.value, venue: venueName})
+    }
+
+    const otherAddress = (
+        <>
+            <label htmlFor='otherAddress'>Address: </label>
+            <input type='text' id ='otherAddress'
+            value={formData.otherAddress}
+            onChange={e=>setFormData({...formData, otherAddress: e.target.value})}
+            />
+            <label htmlFor='city'>City: </label>
+            <input type='text' id ='city'
+            value={formData.city}
+            onChange={e=>setFormData({...formData, city: e.target.value})}
+            />
+            <label htmlFor='state'>State: </label>
+            <input type='text' id ='state'
+            value={formData.state}
+            onChange={e=>setFormData({...formData, state: e.target.value})}
+            />
+            <label htmlFor='zipcode'>Zip: </label>
+            <input type='number' id ='zipcode'
+            value={formData.zipcode}
+            onChange={e=>setFormData({...formData, zipcode: e.target.value})}
+            /> 
+        </>
+
+    )
+
     return ( 
 
     <div>
@@ -54,27 +86,32 @@ function Form({foundEvent, setTrigger, currentUser}) {
             onChange={e=>setFormData({...formData, time: e.target.value})}
             />
 
-            <label htmlFor='address'>Address: </label>
-            <input type='text' id ='address'
-            value={formData.address}
-            onChange={e=>setFormData({...formData, address: e.target.value})}
-            />
+            <label htmlFor='address'>Venue: </label>
+            <select id ='address'
+            value={formData.address} onChange={handleChange}>
+                <option value={venues.eta}>ETA Highland Park</option>
+                <option value={venues.goldDiggers}>Gold Diggers</option>
+                <option value={venues.hollywoodBowl}>Hollywood Bowl</option>
+                <option value={venues.theEcho}>The Echo</option>
+                <option value={venues.theWiltern}>The Wiltern</option>
+                <option value={venues.zebulon}>Zebulon</option>
+                <option value={venues.picoUnion}>Pico Union Project</option>
+                <option value={venues.other}>Other</option>
+            </select>
 
-            <label htmlFor='city'>City: </label>
-            <input type='text' id ='city'
-            value={formData.city}
-            onChange={e=>setFormData({...formData, city: e.target.value})}
-            />
-            <label htmlFor='state'>State: </label>
-            <input type='text' id ='state'
-            value={formData.state}
-            onChange={e=>setFormData({...formData, state: e.target.value})}
-            />
+           {formData.address === venues.other ? otherAddress : ''}
 
-            <label htmlFor='zipcode'>Zip: </label>
-            <input type='number' id ='zipcode'
-            value={formData.zipcode}
-            onChange={e=>setFormData({...formData, zipcode: e.target.value})}
+
+            {/* <label htmlFor='genre'>Genre: </label>
+            <input type='text' id ='genre'
+            value={formData.genre}
+            onChange={e=>setFormData({...formData, genre: e.target.value})}
+        /> */}
+
+            <label htmlFor='link'>Event Link: </label>
+            <input type='text' id ='link'
+            value={formData.link}
+            onChange={e=>setFormData({...formData, link: e.target.value})}
             />
 
             <label htmlFor='cover'>Cover Charge: </label>
@@ -83,19 +120,7 @@ function Form({foundEvent, setTrigger, currentUser}) {
             onChange={e=>setFormData({...formData, cover: e.target.value})}
             />
 
-            <label htmlFor='genre'>Genre: </label>
-            <input type='text' id ='genre'
-            value={formData.genre}
-            onChange={e=>setFormData({...formData, genre: e.target.value})}
-            />
-
-            <label htmlFor='genre'>Event Link: </label>
-            <input type='text' id ='link'
-            value={formData.link}
-            onChange={e=>setFormData({...formData, link: e.target.value})}
-            />
-
-            <label htmlFor='details'>Details: </label>
+            <label htmlFor='details'>Additional Info: </label>
             <input type='text' id ='details'
             value={formData.details}
             onChange={e=>setFormData({...formData, details: e.target.value})}

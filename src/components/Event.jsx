@@ -26,7 +26,7 @@ function Event({event, setTrigger, currentUser}) {
       gapi.auth2.getAuthInstance().signIn().then(()=>{
         const eventInfo = {
           'summary': `${event.title}`,
-          'location': `${event.address}, ${event.city}, ${event.state} ${event.zipcode}`,
+          'location': `${event.address}`,
           'description': `${event.details}, $${event.cover} cover, ${event.link}`,
           'start': {
             'dateTime': `${dateTime}`,
@@ -82,12 +82,12 @@ function Event({event, setTrigger, currentUser}) {
   return (
       <div className="event-container">
           <div>
-              <h1>{event.title}</h1>
+              <h1>{event.title} @ {event.venue}</h1>
               <h3>{dayjs(`${event.date}${event.time}`).format('MMMM D, YYYY @ h:mma')}</h3>
               <h4><a href={event.link} target='_blank'>Tickets</a></h4>
-              <a target='_blank' href={`http://www.google.com/maps/?q=${event.address}+${event.city},+${event.state}+${event.zipcode}`}>{event.address}, {event.city}, {event.state} {event.zipcode}</a>
+              <a target='_blank' href={`http://www.google.com/maps/?q=${event.address !== '' ? event.address : event.otherAddress + event.city + event.state + event.zipcode}`}>{event.address ? event.address : `${event.otherAddress}, ${event.city}, ${event.state} ${event.zipcode} `}</a>
               <p>${event.cover} cover</p>
-              <p>For people who like: {event.genre}</p>
+              {/* <p>For people who like: {event.genre}</p> */}
               <p>Details: {event.details}</p>
               <button onClick={handleCalendarEvent}>Add Event to Google Calendar</button>
               <p>Posted by: {event.user[0] && currentUser ? (event.user[0]._id===currentUser.id ?  'You': event.user[0].username) : event.user[0].username }</p>
