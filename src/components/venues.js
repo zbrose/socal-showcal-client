@@ -6,6 +6,7 @@ const venues = {
     theWiltern: '3790 Wilshire Blvd, Los Angeles, CA 90010',
     hollywoodBowl: '2301 N Highland Ave, Los Angeles, CA 90068', 
     picoUnion: '1153 Valencia St, Los Angeles, CA 90015',
+    goldFish: '5043 York Blvd, Los Angeles, CA 90042',
     other: ''
 }
 

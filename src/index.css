@@ -99,3 +99,19 @@ form {
   width: 50%;
 }
 
+.alert {
+  background-color: lightgrey;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  font-weight: bold;
+  width: 100%
+}
+
+.alert > button {
+  width: 100px;
+  margin: 5px
+
+}

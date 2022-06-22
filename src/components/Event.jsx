@@ -1,8 +1,11 @@
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import dayjs from 'dayjs'
+import { useState } from 'react'
 
 function Event({event, setTrigger, currentUser}) {
+
+  const [alert, setAlert] = useState(false)
 
   let dateTime = dayjs(event.date + event.time).format()
   let endDate = dayjs(event.date+(parseInt(event.time)+3)).format()
@@ -25,7 +28,7 @@ function Event({event, setTrigger, currentUser}) {
 
       gapi.auth2.getAuthInstance().signIn().then(()=>{
         const eventInfo = {
-          'summary': `${event.title}`,
+          'summary': `${event.title} @ ${event.venue}`,
           'location': `${event.address}`,
           'description': `${event.details}, $${event.cover} cover, ${event.link}`,
           'start': {
@@ -58,8 +61,11 @@ function Event({event, setTrigger, currentUser}) {
     })
   }
 
-  
-  const handleClick = () => {
+  const handleAlert = () => {
+    setAlert(true)
+  }
+
+  const handleDelete= () => {
     const token = localStorage.getItem('jwt')
     const config = {
       headers: { Authorization: `${token}` }
@@ -67,6 +73,7 @@ function Event({event, setTrigger, currentUser}) {
     axios.delete(`${process.env.REACT_APP_SERVER_URL}/events/${event._id}`, config )
     .then(res=>{
       setTrigger('deleted')
+      setAlert(false)
     })
     .catch(console.log)
   }
@@ -75,20 +82,26 @@ function Event({event, setTrigger, currentUser}) {
       <div className='logged-in'>
           <p>--------------------</p>
           <Link to={`/events/${event._id}`}>Edit Event</Link>
-          <button onClick={handleClick}>Delete Event</button>
+          {!alert ? <button onClick={handleAlert}>Delete Event</button> : 
+          <div className='alert'>
+            <p>Are you sure?</p>
+            <button style={{backgroundColor: 'lightgreen'}} onClick={()=>setAlert(false)}>No</button>
+            <button style={{backgroundColor: 'red'}} onClick={handleDelete}>Yes</button>
+          </div>}
+          
       </div>
   )
   
   return (
       <div className="event-container">
           <div>
-              <h1>{event.title} @ {event.venue}</h1>
+              <h1>{event.title} @ {event.venue !== 'Other' ? event.venue : event.customVenueName}</h1>
               <h3>{dayjs(`${event.date}${event.time}`).format('MMMM D, YYYY @ h:mma')}</h3>
               <h4><a href={event.link} target='_blank'>Tickets</a></h4>
               <a target='_blank' href={`http://www.google.com/maps/?q=${event.address !== '' ? event.address : event.otherAddress + event.city + event.state + event.zipcode}`}>{event.address ? event.address : `${event.otherAddress}, ${event.city}, ${event.state} ${event.zipcode} `}</a>
-              <p>${event.cover} cover</p>
+              <p>{event.cover ? `${event.cover} cover` : 'Free'}</p>
               {/* <p>For people who like: {event.genre}</p> */}
-              <p>Details: {event.details}</p>
+              <p>{event.details ? `Details: ${event.details}` : ''}</p>
               <button onClick={handleCalendarEvent}>Add Event to Google Calendar</button>
               <p>Posted by: {event.user[0] && currentUser ? (event.user[0]._id===currentUser.id ?  'You': event.user[0].username) : event.user[0].username }</p>
           </div>

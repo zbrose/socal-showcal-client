@@ -40,6 +40,11 @@ function Form({foundEvent, setTrigger, currentUser}) {
 
     const otherAddress = (
         <>
+            <label htmlFor='customVenueName'>Custom Venue Name: </label>
+            <input type='text' id ='customVenueName'
+            value={formData.customVenueName}
+            onChange={e=>setFormData({...formData, customVenueName: e.target.value})}
+            />
             <label htmlFor='otherAddress'>Address: </label>
             <input type='text' id ='otherAddress'
             value={formData.otherAddress}
@@ -74,6 +79,22 @@ function Form({foundEvent, setTrigger, currentUser}) {
             onChange={e=>setFormData({...formData, title: e.target.value})}
             />
 
+            <label htmlFor='address'>Venue: </label>
+            <select id='address' value={formData.address} onChange={handleChange}>
+                <option disabled selected>Select a Venue</option>
+                <option value={venues.eta}>ETA Highland Park</option>
+                <option value={venues.goldDiggers}>Gold Diggers</option>
+                <option value={venues.hollywoodBowl}>Hollywood Bowl</option>
+                <option value={venues.theEcho}>The Echo</option>
+                <option value={venues.theWiltern}>The Wiltern</option>
+                <option value={venues.zebulon}>Zebulon</option>
+                <option value={venues.picoUnion}>Pico Union Project</option>
+                <option value={venues.goldFish}>The Goldfish</option>
+                <option value={venues.other}>Other</option>
+            </select>
+
+            {formData.address === venues.other ? otherAddress : ''}
+
             <label htmlFor='date'>Date: </label>
             <input type='date' id ='date'
             value={formData.date}
@@ -85,28 +106,6 @@ function Form({foundEvent, setTrigger, currentUser}) {
             value={formData.time}
             onChange={e=>setFormData({...formData, time: e.target.value})}
             />
-
-            <label htmlFor='address'>Venue: </label>
-            <select id ='address'
-            value={formData.address} onChange={handleChange}>
-                <option value={venues.eta}>ETA Highland Park</option>
-                <option value={venues.goldDiggers}>Gold Diggers</option>
-                <option value={venues.hollywoodBowl}>Hollywood Bowl</option>
-                <option value={venues.theEcho}>The Echo</option>
-                <option value={venues.theWiltern}>The Wiltern</option>
-                <option value={venues.zebulon}>Zebulon</option>
-                <option value={venues.picoUnion}>Pico Union Project</option>
-                <option value={venues.other}>Other</option>
-            </select>
-
-           {formData.address === venues.other ? otherAddress : ''}
-
-
-            {/* <label htmlFor='genre'>Genre: </label>
-            <input type='text' id ='genre'
-            value={formData.genre}
-            onChange={e=>setFormData({...formData, genre: e.target.value})}
-        /> */}
 
             <label htmlFor='link'>Event Link: </label>
             <input type='text' id ='link'
