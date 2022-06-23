@@ -2,10 +2,12 @@ import axios from 'axios'
 import venues from './venues'
 import {useState} from 'react'
 import {useNavigate, Link, useParams} from 'react-router-dom'
+import {CirclePicker} from 'react-color'
 
-function Form({foundEvent, setTrigger, currentUser}) {
+function Form({foundEvent, setTrigger}) {
     const navigate = useNavigate()
     const [formData, setFormData] = useState({...foundEvent})
+    const [color, setColor] = useState('#f2f2f2')
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -32,10 +34,16 @@ function Form({foundEvent, setTrigger, currentUser}) {
         }
     }
 
-    const handleChange = e=> {
+    const handleChange = e => {
         const sel = document.querySelector('select')
         const venueName = sel.options[sel.selectedIndex].text
         setFormData({...formData, address: e.target.value, venue: venueName})
+    }
+
+    const handleColor = colorHex => {
+        setColor(colorHex.hex)
+        setFormData({...formData, color: colorHex.hex})
+        console.log(colorHex.hex)
     }
 
     const otherAddress = (
@@ -72,7 +80,7 @@ function Form({foundEvent, setTrigger, currentUser}) {
     return ( 
 
     <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{backgroundColor: color}}>
             <label htmlFor='title'>Title: </label>
             <input type='text' id ='title'
             value={formData.title}
@@ -81,7 +89,7 @@ function Form({foundEvent, setTrigger, currentUser}) {
 
             <label htmlFor='address'>Venue: </label>
             <select id='address' value={formData.address} onChange={handleChange}>
-                <option disabled selected>Select a Venue</option>
+                <option disabled defaultValue >Select a Venue</option>
                 <option value={venues.eta}>ETA Highland Park</option>
                 <option value={venues.goldDiggers}>Gold Diggers</option>
                 <option value={venues.hollywoodBowl}>Hollywood Bowl</option>
@@ -123,6 +131,14 @@ function Form({foundEvent, setTrigger, currentUser}) {
             <input type='text' id ='details'
             value={formData.details}
             onChange={e=>setFormData({...formData, details: e.target.value})}
+            />
+
+            <label htmlFor="color">Select a Color: </label>
+
+            <CirclePicker
+             id='color'
+             color={color}
+             onChangeComplete={handleColor}
             />
 
             <input type="submit" />
