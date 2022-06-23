@@ -89,7 +89,7 @@ function Form({foundEvent, setTrigger}) {
 
             <label htmlFor='address'>Venue: </label>
             <select id='address' value={formData.address} onChange={handleChange}>
-                <option disabled defaultValue >Select a Venue</option>
+                <option disabled selected >Select a Venue</option>
                 <option value={venues.eta}>ETA Highland Park</option>
                 <option value={venues.goldDiggers}>Gold Diggers</option>
                 <option value={venues.hollywoodBowl}>Hollywood Bowl</option>
