@@ -48,7 +48,7 @@ function Register({setCurrentUser, currentUser}) {
             <form onSubmit={handleFormSubmit}>
 
             <label htmlFor='name'>User Name:</label>
-            <input type="text"
+            <input required type="text"
              id='name'
              placeholder='name'
              onChange={e => setForm({...form, username: e.target.value})}
@@ -57,7 +57,7 @@ function Register({setCurrentUser, currentUser}) {
             />
 
             <label htmlFor="email">Email:</label>
-            <input type="email"
+            <input required type="email"
              id='email'npm 
              placeholder='user@domain.com'
              onChange={e => setForm({...form, email: e.target.value})}
@@ -65,7 +65,7 @@ function Register({setCurrentUser, currentUser}) {
             />
 
             <label htmlFor='password'>Password:</label>
-            <input type="password"
+            <input required type="password"
              id='password'
              placeholder='password'
              onChange={e => setForm({...form, password: e.target.value})}
@@ -73,7 +73,7 @@ function Register({setCurrentUser, currentUser}) {
             />
 
             <label htmlFor='passwordConfirmation'>Confirmation:</label>
-            <input type="password"
+            <input required type="password"
              id='password'
              placeholder='confirm password'
              onChange={e => setForm({...form, passwordConfirmation: e.target.value})}
