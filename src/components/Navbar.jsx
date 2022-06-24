@@ -18,7 +18,7 @@ function Navbar({handleLogout, currentUser}) {
     return ( 
  
         <header>
-         <h1><Link to='/'>Shows</Link></h1>
+         <h1>Shows?</h1>
             {currentUser ? loggedIn : loggedOut}
         </header>
         

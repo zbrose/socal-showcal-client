@@ -40,7 +40,7 @@ function Login({currentUser, setCurrentUser}) {
             <form onSubmit={handleFormSubmit}>
 
                 <label htmlFor="email">Email:</label>
-                <input type="text"
+                <input required type="text"
                  id='email'
                  placeholder='user@domain.com'
                  onChange={e => setForm({...form, email: e.target.value})}
@@ -48,7 +48,7 @@ function Login({currentUser, setCurrentUser}) {
                 />
 
                 <label htmlFor='password'>Password:</label>
-                <input type="password"
+                <input required type="password"
                  id='password'
                  placeholder='password'
                  onChange={e => setForm({...form, password: e.target.value})}
