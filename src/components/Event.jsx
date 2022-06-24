@@ -78,11 +78,7 @@ function Event({event, setTrigger, currentUser}) {
     .catch(console.log)
   }
 
-  const red = Math.floor(Math.random()*255+75)
-  const blue = Math.floor(Math.random()*255+75)
-  const green = Math.floor(Math.random()*255+75)
 
-  
   const loggedIn = (
       <div className='logged-in'>
           <p>--------------------</p>
