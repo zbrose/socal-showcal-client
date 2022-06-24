@@ -35,7 +35,7 @@ function Login({currentUser, setCurrentUser}) {
     if(currentUser) return <Navigate to='/' />
     return ( 
         <div>
-            <h1>Login: </h1>
+            <h3>Login: </h3>
             <p>{msg ? `the server has a message for you: ${msg}` :''}</p>
             <form onSubmit={handleFormSubmit}>
 

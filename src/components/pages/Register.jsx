@@ -43,7 +43,7 @@ function Register({setCurrentUser, currentUser}) {
     return ( 
         <div>
 
-            <h1>Register: </h1>
+            <h3>Register: </h3>
             <p>{msg ? `entered info not valid ${msg}` :''}</p>
             <form onSubmit={handleFormSubmit}>
 
