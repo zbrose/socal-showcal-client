@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -10,11 +10,11 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.flex-container{
+.flex-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -24,9 +24,11 @@ code {
 
 .event-container {
   padding: 20px;
-  font-family: 'Courier New', Courier, monospace;
-  width: 500px;
-  height: 620px;
+  font-family: "Courier New", Courier, monospace;
+  min-width: 250px;
+  max-width: 500px;
+  max-height: 620px;
+  min-height: 500px;
   text-align: left;
   color: white;
   margin: 10px;
@@ -40,7 +42,13 @@ code {
   font-weight: bold;
 }
 
- .create-link {
+/* .event-content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+} */
+
+.create-link {
   color: white;
   font-weight: bold;
 }
@@ -51,12 +59,11 @@ header {
   align-items: center;
   background-color: rgb(0, 224, 108);
   color: white;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   margin: 0 0 20px 0;
 }
 
 header > h1 {
-  font-size: 100px;
   margin: 30px;
 }
 
@@ -71,14 +78,13 @@ header > a:hover {
   font-weight: bold;
 }
 
-
 button {
   display: block;
   margin: 10px 0;
   background-color: rgba(255, 255, 255, 0);
   border: 1px solid rgb(255, 255, 255);
   padding: 8px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-size: 15px;
   color: white;
 }
@@ -89,7 +95,8 @@ button:hover {
   /* border: 1px solid black; */
 }
 
-input , select {
+input,
+select {
   width: 100%;
   padding: 12px 20px;
   margin: 0 auto;
@@ -99,7 +106,7 @@ input , select {
   box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type="submit"] {
   width: 40%;
   background-color: #000000;
   color: white;
@@ -110,7 +117,7 @@ input[type=submit] {
   cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type="submit"]:hover {
   background-color: #444444;
 }
 
@@ -158,49 +165,32 @@ label {
   color: black;
 }
 
-.alert > button:hover{
+.alert > button:hover {
   border: solid black;
 }
 
-@media (max-width: 500px){
-
-  .flex-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .event-container {
-    width: 300px;
-  }
-
+@media (max-width: 750px) {
   header {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    background-color: rgb(0, 224, 108);
+    justify-content: space-between;
     color: white;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
     margin: 0 0 20px 0;
+    padding: 1rem;
   }
 
   header > h1 {
-    font-size: 50px;
-    margin: 10px 50px;
-    grid-column: span 2;
+    font-size: 16px;
+    margin: 0;
   }
-  
+
   header > a {
-    font-size: 15px;
-    margin: 0 0 15px 0;
+    font-size: 1rem;
     text-decoration: none;
     color: white;
   }
 
-  form {
-    width: 300px;
-  }
-
-  .alert {
-    width: 65vw;
+  header > a:hover {
+    text-decoration: underline;
+    font-weight: bold;
   }
 }
