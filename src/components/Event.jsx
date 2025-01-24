@@ -137,14 +137,15 @@ function Event({ event, setTrigger, currentUser }) {
         </a>
         <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
         <p>{event.details ? `Details: ${event.details}` : ""}</p>
-        <p>
+        {/* <p>
           Posted by:{" "}
           {event.user[0] && currentUser
             ? event.user[0]._id === currentUser.id
               ? "You"
               : event.user[0].username
-            : event.user[0].username}
-        </p>
+            : event.user[0].username
+						}
+        </p> */}
         <a href={event.link} target="_blank">
           {event.link ? "Get Tickets" : ""}
         </a>
