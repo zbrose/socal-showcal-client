@@ -106,10 +106,7 @@ function Event({ event, setTrigger, currentUser }) {
   );
 
   return (
-    <div
-      className="event-container"
-      style={{ backgroundColor: `${event.color}` }}
-    >
+    <div className="event" style={{ backgroundColor: `${event.color}` }}>
       <div className="event-content">
         <h1>
           {event.title} @{" "}
@@ -120,6 +117,7 @@ function Event({ event, setTrigger, currentUser }) {
         </h3>
         <a
           target="_blank"
+          rel="noreferrer"
           href={`http://www.google.com/maps/?q=${
             event.address !== ""
               ? event.address
@@ -131,22 +129,21 @@ function Event({ event, setTrigger, currentUser }) {
             : `${event.otherAddress}, ${event.city}, ${event.state} ${event.zipcode} `}
         </a>
         <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
-        <p>{event.details ? `Details: ${event.details}` : ""}</p>
-        {/* <p>
+        <p>{event.details ? `${event.details}` : ""}</p>
+        <p>
           Posted by:{" "}
           {event.user[0] && currentUser
             ? event.user[0]._id === currentUser.id
               ? "You"
               : event.user[0].username
-            : event.user[0].username
-						}
-        </p> */}
-        <a href={event.link} target="_blank">
+            : event.user[0].username}
+        </p>
+        <a href={event.link} target="_blank" rel="noreferrer">
           {event.link ? "Get Tickets" : ""}
         </a>
-        <button onClick={handleCalendarEvent}>
+        {/* <button onClick={handleCalendarEvent}>
           Add Event to Google Calendar
-        </button>
+        </button> */}
       </div>
       {event.user[0] && currentUser
         ? event.user[0]._id === currentUser.id

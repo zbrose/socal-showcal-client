@@ -1,5 +1,5 @@
 import Event from "../Event";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { Masonry } from "@mui/lab";
 
 function Home({ events, setTrigger, currentUser, isLoading }) {
   const eventsList = events.map((event, i) => {
@@ -14,19 +14,17 @@ function Home({ events, setTrigger, currentUser, isLoading }) {
   });
 
   return (
-    <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 1000: 2, 1250: 3 }}>
-      <Masonry>
-        {!isLoading ? (
-          events[0] ? (
-            eventsList
-          ) : (
-            <h2 style={{ margin: "0 auto" }}>No Upcoming Events</h2>
-          )
+    <Masonry columns={3} spacing={0}>
+      {!isLoading ? (
+        events[0] ? (
+          eventsList
         ) : (
-          <h2 style={{ margin: "0 auto" }}>Loading Events...</h2>
-        )}
-      </Masonry>
-    </ResponsiveMasonry>
+          <h2 style={{ margin: "0 auto" }}>No Upcoming Events</h2>
+        )
+      ) : (
+        <h2 style={{ margin: "0 auto" }}>Loading Events...</h2>
+      )}
+    </Masonry>
     // <div className="flex-container">
     //   {!isLoading ? (
     //     events[0] ? (
