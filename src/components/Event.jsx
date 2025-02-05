@@ -5,7 +5,6 @@ import { useState } from "react";
 
 function Event({ event, setTrigger, currentUser }) {
   const [alert, setAlert] = useState(false);
-
   let dateTime = dayjs(event.date + event.time).format();
   let endDate = dayjs(event.date + (parseInt(event.time) + 3)).format();
 
@@ -82,10 +81,6 @@ function Event({ event, setTrigger, currentUser }) {
       })
       .catch(console.log);
   };
-
-  const red = Math.floor(Math.random() * 255 + 75);
-  const blue = Math.floor(Math.random() * 255 + 75);
-  const green = Math.floor(Math.random() * 255 + 75);
 
   const loggedIn = (
     <div className="logged-in">

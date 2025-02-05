@@ -19,7 +19,10 @@ function Navbar({ handleLogout, currentUser }) {
   );
   return (
     <header>
-      <h1>SoCal Show Cal</h1>
+      <Link to="/">
+        <h1>SoCal Show Cal</h1>
+      </Link>
+
       {currentUser ? loggedIn : loggedOut}
     </header>
   );
