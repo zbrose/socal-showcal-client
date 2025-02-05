@@ -9,6 +9,7 @@ function Login({ currentUser, setCurrentUser }) {
     password: "",
   });
   const [msg, setMsg] = useState("");
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -24,13 +25,11 @@ function Login({ currentUser, setCurrentUser }) {
       localStorage.setItem("jwt", token);
       //set the app state to the logged in user
       setCurrentUser(decoded);
-      console.log(decoded);
+      console.log("successfully signed in as user:", decoded.username);
     } catch (err) {
       if (err.response.status === 400) {
-        console.log(err.response.data);
-        setMsg(err.response.data.message);
+        setMsg(err.response.data.msg);
       }
-      console.log(err);
     }
   };
 
@@ -39,7 +38,7 @@ function Login({ currentUser, setCurrentUser }) {
   return (
     <div>
       <h1>Login: </h1>
-      <p>{msg ? `the server has a message for you: ${msg}` : ""}</p>
+      <p style={{ color: "red" }}>{msg ? msg : ""}</p>
       <form onSubmit={handleFormSubmit}>
         <label htmlFor="email">Email:</label>
         <input
@@ -49,8 +48,8 @@ function Login({ currentUser, setCurrentUser }) {
           placeholder="user@domain.com"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           value={form.email}
+          className={msg ? "invalid" : ""}
         />
-
         <label htmlFor="password">Password:</label>
         <input
           required
@@ -59,6 +58,7 @@ function Login({ currentUser, setCurrentUser }) {
           placeholder="password"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           value={form.password}
+          className={msg ? "invalid" : ""}
         />
 
         <input type="submit" />

@@ -14,31 +14,42 @@ function Register({ setCurrentUser, currentUser }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(form.password)) {
+      setMsg(
+        "Password must be at least 8 characters long and include at least one number and one special character."
+      );
+      return;
+    }
+
+    if (form.password !== form.passwordConfirmation) {
+      setMsg("The passwords you entered do not match.");
+      return;
+    }
+
     try {
-      if (form.password === form.passwordConfirmation) {
-        //remove unneeded data in the form
-        delete form.passwordConfirmation;
-        //post to backend with form data to login
-        const response = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/users/register`,
-          form
-        );
-        //decode the token that is sent to us
-        const { token } = response.data;
-        const decoded = jwt_decode(token);
-        //save token in local storage
-        localStorage.setItem("jwt", token);
-        //set the app state to the logged in user
-        setCurrentUser(decoded);
-        console.log(decoded);
-      } else {
-        setMsg("the two passwords you enterd do not match");
-      }
+      const { passwordConfirmation, ...formData } = form;
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/users/register`,
+        formData
+      );
+      const { token } = response.data;
+      const decoded = jwt_decode(token);
+
+      localStorage.setItem("jwt", token);
+      setCurrentUser(decoded);
+      console.log(decoded);
     } catch (err) {
-      if (err.response.status === 409) {
-        setMsg(err.response.data.message);
+      if (err.response) {
+        setMsg(err.response.data.msg);
       }
       console.log(err);
+      setForm((prevForm) => ({
+        ...prevForm,
+        password: "",
+        passwordConfirmation: "",
+      }));
     }
   };
 
@@ -46,7 +57,7 @@ function Register({ setCurrentUser, currentUser }) {
   return (
     <div>
       <h1>Register: </h1>
-      <p>{msg ? `entered info not valid ${msg}` : ""}</p>
+      <p style={{ color: "red" }}>{msg ? msg : ""}</p>
       <form onSubmit={handleFormSubmit}>
         <label htmlFor="name">User Name:</label>
         <input
@@ -56,6 +67,7 @@ function Register({ setCurrentUser, currentUser }) {
           placeholder="name"
           onChange={(e) => setForm({ ...form, username: e.target.value })}
           value={form.username}
+          className={msg ? "invalid" : ""}
         />
 
         <label htmlFor="email">Email:</label>
@@ -67,6 +79,7 @@ function Register({ setCurrentUser, currentUser }) {
           placeholder="user@domain.com"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           value={form.email}
+          className={msg ? "invalid" : ""}
         />
 
         <label htmlFor="password">Password:</label>
@@ -77,6 +90,7 @@ function Register({ setCurrentUser, currentUser }) {
           placeholder="password"
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           value={form.password}
+          className={msg ? "invalid" : ""}
         />
 
         <label htmlFor="passwordConfirmation">Confirmation:</label>
@@ -89,6 +103,7 @@ function Register({ setCurrentUser, currentUser }) {
             setForm({ ...form, passwordConfirmation: e.target.value })
           }
           value={form.passwordConfirmation}
+          className={msg ? "invalid" : ""}
         />
 
         <input type="submit" />
