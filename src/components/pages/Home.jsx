@@ -16,7 +16,7 @@ function Home({ events, setTrigger, currentUser, isLoading }) {
   return !isLoading ? (
     events[0] ? (
       <Masonry columns={3} spacing={0}>
-        eventsList
+        {eventsList}
       </Masonry>
     ) : (
       <h2>No Upcoming Events</h2>
@@ -24,18 +24,6 @@ function Home({ events, setTrigger, currentUser, isLoading }) {
   ) : (
     <h2>Loading Events...</h2>
   );
-
-  // <div className="flex-container">
-  //   {!isLoading ? (
-  //     events[0] ? (
-  //       eventsList
-  //     ) : (
-  //       <h2 style={{ margin: "0 auto" }}>No Upcoming Events</h2>
-  //     )
-  //   ) : (
-  //     <h2 style={{ margin: "0 auto" }}>Loading Events...</h2>
-  //   )}
-  // </div>
 }
 
 export default Home;
