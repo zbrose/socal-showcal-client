@@ -74,7 +74,7 @@ function Event({ event, setTrigger, currentUser }) {
       headers: { Authorization: `${token}` },
     };
     axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/events/${event._id}`, config)
+      .delete(`${import.meta.env.VITE_SERVER_URL}/events/${event._id}`, config)
       .then((res) => {
         setTrigger("deleted");
         setAlert(false);

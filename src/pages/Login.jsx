@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { Navigate, Link } from "react-router-dom";
 
 function Login({ currentUser, setCurrentUser }) {
@@ -15,12 +15,12 @@ function Login({ currentUser, setCurrentUser }) {
     try {
       //post to backend with form data to login
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/login`,
+        `${import.meta.env.VITE_SERVER_URL}/users/login`,
         form
       );
       //decode the token that is sent to us
       const { token } = response.data;
-      const decoded = jwt_decode(token);
+      const decoded = jwtDecode(token);
       //save token in local storage
       localStorage.setItem("jwt", token);
       //set the app state to the logged in user

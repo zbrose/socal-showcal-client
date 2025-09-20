@@ -1,5 +1,5 @@
 import axios from "axios";
-import venues from "./venues";
+import venues from "../constants/venues";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { CirclePicker } from "react-color";
@@ -18,7 +18,7 @@ function Form({ foundEvent, setTrigger }) {
     if (!foundEvent) {
       axios
         .post(
-          `${process.env.REACT_APP_SERVER_URL}/events/new`,
+          `${import.meta.env.VITE_SERVER_URL}/events/new`,
           {
             ...formData,
             color: !color ? randomColor() : color,
@@ -34,7 +34,7 @@ function Form({ foundEvent, setTrigger }) {
     } else {
       axios
         .put(
-          `${process.env.REACT_APP_SERVER_URL}/events/${foundEvent._id}/edit`,
+          `${import.meta.env.VITE_SERVER_URL}/events/${foundEvent._id}/edit`,
           formData,
           config
         )

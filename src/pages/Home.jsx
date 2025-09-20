@@ -1,4 +1,4 @@
-import Event from "../Event";
+import Event from "../components/Event";
 import { Masonry } from "@mui/lab";
 
 function Home({ events, setTrigger, currentUser, isLoading }) {

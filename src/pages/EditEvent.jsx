@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Form from "../Form";
+import Form from "../components/Form";
 
 function EditEvent({ events, setTrigger, currentUser }) {
   const { id } = useParams();

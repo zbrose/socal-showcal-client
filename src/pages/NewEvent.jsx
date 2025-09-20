@@ -1,4 +1,4 @@
-import Form from "../Form";
+import Form from "../components/Form";
 
 function NewEvent({ setTrigger, currentUser }) {
   return (
