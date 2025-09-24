@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { Navigate, Link } from "react-router-dom";
 
 function Register({ setCurrentUser, currentUser }) {
@@ -31,11 +31,11 @@ function Register({ setCurrentUser, currentUser }) {
     try {
       const { passwordConfirmation, ...formData } = form;
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/users/register`,
+        `${import.meta.env.VITE_SERVER_URL}/users/register`,
         formData
       );
       const { token } = response.data;
-      const decoded = jwt_decode(token);
+      const decoded = jwtDecode(token);
 
       localStorage.setItem("jwt", token);
       setCurrentUser(decoded);

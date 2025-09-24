@@ -7,33 +7,20 @@ body {
   text-align: center;
 }
 
-.flex-container {
-  display: flex;
-  justify-content: center;
-}
-
-.event-container {
+.event {
   padding: 20px;
-  font-family: "Courier New", Courier, monospace;
-  max-width: 500px;
-  min-height: 500px;
+  /* font-family: "Courier New", Courier, monospace; */
   text-align: left;
   color: white;
 }
 
-.event-container > div > a {
+.event > div > a {
   color: white;
   margin: 5px 0;
 }
-.event-container > div > a:hover {
+.event > div > a:hover {
   font-weight: bold;
 }
-
-/* .event-content {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-} */
 
 .create-link {
   color: white;

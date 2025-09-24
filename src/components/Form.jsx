@@ -1,7 +1,7 @@
 import axios from "axios";
-import venues from "./venues";
+import venues from "../constants/venues";
 import { useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { CirclePicker } from "react-color";
 
 function Form({ foundEvent, setTrigger }) {
@@ -18,7 +18,7 @@ function Form({ foundEvent, setTrigger }) {
     if (!foundEvent) {
       axios
         .post(
-          `${process.env.REACT_APP_SERVER_URL}/events/new`,
+          `${import.meta.env.VITE_SERVER_URL}/events/new`,
           {
             ...formData,
             color: !color ? randomColor() : color,
@@ -34,7 +34,7 @@ function Form({ foundEvent, setTrigger }) {
     } else {
       axios
         .put(
-          `${process.env.REACT_APP_SERVER_URL}/events/${foundEvent._id}/edit`,
+          `${import.meta.env.VITE_SERVER_URL}/events/${foundEvent._id}/edit`,
           formData,
           config
         )
@@ -180,14 +180,15 @@ function Form({ foundEvent, setTrigger }) {
         />
 
         <label htmlFor="details">Additional Info: </label>
-        <input
-          type="text"
+        <textarea
+          style={{ width: "100%", height: "150px" }}
+          name="details"
           id="details"
           value={formData.details}
           onChange={(e) =>
             setFormData({ ...formData, details: e.target.value })
           }
-        />
+        ></textarea>
 
         <label htmlFor="color">Select a Color: </label>
 

@@ -1,14 +1,14 @@
 import axios from "axios";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 // import ShowEvents from './components/ShowEvents'
-import EditEvent from "./components/pages/EditEvent";
-import NewEvent from "./components/pages/NewEvent";
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
-import Home from "./components/pages/Home";
+import EditEvent from "./pages/EditEvent";
+import NewEvent from "./pages/NewEvent";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -19,15 +19,20 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      setCurrentUser(jwt_decode(token));
+      setCurrentUser(jwtDecode(token));
     } else setCurrentUser(null);
   }, []);
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_SERVER_URL + "/events")
+      .get(import.meta.env.VITE_SERVER_URL + "/events")
       .then((response) => {
-        setEvents(response.data);
+        const sortedEvents = response.data.sort(
+          (a: { date: string }, b: { date: string }) =>
+            new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+        console.log(sortedEvents);
+        setEvents(sortedEvents);
         setIsLoading(false);
         setTrigger("");
       })
@@ -42,7 +47,6 @@ function App() {
   return (
     <div>
       <Navbar currentUser={currentUser} handleLogout={handleLogout} />
-
       <Routes>
         <Route
           path="/"

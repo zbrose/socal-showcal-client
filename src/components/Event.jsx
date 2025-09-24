@@ -74,7 +74,7 @@ function Event({ event, setTrigger, currentUser }) {
       headers: { Authorization: `${token}` },
     };
     axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/events/${event._id}`, config)
+      .delete(`${import.meta.env.VITE_SERVER_URL}/events/${event._id}`, config)
       .then((res) => {
         setTrigger("deleted");
         setAlert(false);
@@ -106,10 +106,7 @@ function Event({ event, setTrigger, currentUser }) {
   );
 
   return (
-    <div
-      className="event-container"
-      style={{ backgroundColor: `${event.color}` }}
-    >
+    <div className="event" style={{ backgroundColor: `${event.color}` }}>
       <div className="event-content">
         <h1>
           {event.title} @{" "}
@@ -120,6 +117,7 @@ function Event({ event, setTrigger, currentUser }) {
         </h3>
         <a
           target="_blank"
+          rel="noreferrer"
           href={`http://www.google.com/maps/?q=${
             event.address !== ""
               ? event.address
@@ -131,7 +129,7 @@ function Event({ event, setTrigger, currentUser }) {
             : `${event.otherAddress}, ${event.city}, ${event.state} ${event.zipcode} `}
         </a>
         <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
-        <p>{event.details ? `Details: ${event.details}` : ""}</p>
+        <p>{event.details ? `${event.details}` : ""}</p>
         <p>
           Posted by:{" "}
           {event.user[0] && currentUser
@@ -140,12 +138,12 @@ function Event({ event, setTrigger, currentUser }) {
               : event.user[0].username
             : event.user[0].username}
         </p>
-        <a href={event.link} target="_blank">
+        <a href={event.link} target="_blank" rel="noreferrer">
           {event.link ? "Get Tickets" : ""}
         </a>
-        <button onClick={handleCalendarEvent}>
+        {/* <button onClick={handleCalendarEvent}>
           Add Event to Google Calendar
-        </button>
+        </button> */}
       </div>
       {event.user[0] && currentUser
         ? event.user[0]._id === currentUser.id
