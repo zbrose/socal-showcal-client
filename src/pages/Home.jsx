@@ -1,11 +1,11 @@
 import Event from "../components/Event";
 import { Masonry } from "@mui/lab";
 
-function Home({ events, setTrigger, currentUser, isLoading }) {
-  const eventsList = events.map((event, i) => {
+function Home() {
+  const eventsList = events.map((event) => {
     return (
       <Event
-        key={`keyone=${i}`}
+        key={event.id}
         setTrigger={setTrigger}
         event={event}
         currentUser={currentUser}

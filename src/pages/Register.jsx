@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link } from "react-router";
 
 function Register({ setCurrentUser, currentUser }) {
   const [form, setForm] = useState({
@@ -75,7 +75,6 @@ function Register({ setCurrentUser, currentUser }) {
           required
           type="email"
           id="email"
-          npm
           placeholder="user@domain.com"
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           value={form.email}

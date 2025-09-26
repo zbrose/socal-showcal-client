@@ -1,7 +1,7 @@
 import axios from "axios";
 import venues from "../constants/venues";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router";
 import { CirclePicker } from "react-color";
 
 function Form({ foundEvent, setTrigger }) {
