@@ -27,11 +27,15 @@ function Login() {
     setForm({ ...form, [field]: input });
   };
 
+  console.log(error);
+
   return (
     <div>
       <h1>Login: </h1>
       {isError && (
-        <p style={{ color: "red" }}>{error.message ?? "Login failed"}</p>
+        <p style={{ color: "red" }}>
+          {error?.response?.data.msg ?? "Login failed. Please try again."}
+        </p>
       )}
       <form onSubmit={handleFormSubmit}>
         <label htmlFor="email">Email:</label>

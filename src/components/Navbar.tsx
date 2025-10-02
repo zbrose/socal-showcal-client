@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <header>
-      <Link to="/">
+      <Link to={Enums.ROUTES.HOME}>
         <h1>SoCal Show Cal</h1>
       </Link>
 

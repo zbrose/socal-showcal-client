@@ -1,13 +1,17 @@
 import { useUserStore } from "@/store/userStore";
 import { LoginForm } from "@/types/loginForm";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+
+type ErrorResponse = {
+  msg: string;
+};
 
 export const useLogin = () => {
   const setCurrentUser = useUserStore((state) => state.setCurrentUser);
 
-  return useMutation({
+  return useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>, LoginForm>({
     mutationFn: async (credentials: LoginForm) => {
       return await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/users/login`,
