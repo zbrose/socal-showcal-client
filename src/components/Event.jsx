@@ -2,67 +2,69 @@ import axios from "axios";
 import { Link } from "react-router";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { useUserStore } from "@/store/userStore";
 
-function Event({ event, setTrigger, currentUser }) {
+function Event({ event }) {
   const [alert, setAlert] = useState(false);
-  let dateTime = dayjs(event.date + event.time).format();
-  let endDate = dayjs(event.date + (parseInt(event.time) + 3)).format();
+  const currentUser = useUserStore((state) => state.currentUser);
+  // let dateTime = dayjs(event.date + event.time).format();
+  // let endDate = dayjs(event.date + (parseInt(event.time) + 3)).format();
 
-  const gapi = window.gapi;
-  const DISCOVERY_DOC = [
-    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-  ];
-  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+  // const gapi = window.gapi;
+  // const DISCOVERY_DOC = [
+  //   "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+  // ];
+  // const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
-  const handleCalendarEvent = () => {
-    gapi.load("client:auth2", () => {
-      console.log("loaded client");
-      gapi.client.init({
-        apiKey: process.env.REACT_APP_API_KEY,
-        clientId: process.env.REACT_APP_CLIENT_ID,
-        discoveryDocs: DISCOVERY_DOC,
-        scope: SCOPES,
-        plugin_name: "chat",
-      });
-      gapi.client.load("calendar", "v3", () => console.log("loaded"));
+  // const handleCalendarEvent = () => {
+  //   gapi.load("client:auth2", () => {
+  //     console.log("loaded client");
+  //     gapi.client.init({
+  //       apiKey: process.env.REACT_APP_API_KEY,
+  //       clientId: process.env.REACT_APP_CLIENT_ID,
+  //       discoveryDocs: DISCOVERY_DOC,
+  //       scope: SCOPES,
+  //       plugin_name: "chat",
+  //     });
+  //     gapi.client.load("calendar", "v3", () => console.log("loaded"));
 
-      gapi.auth2
-        .getAuthInstance()
-        .signIn()
-        .then(() => {
-          const eventInfo = {
-            summary: `${event.title} @ ${event.venue}`,
-            location: `${event.address}`,
-            description: `${event.details}, $${event.cover} cover, ${event.link}`,
-            start: {
-              dateTime: `${dateTime}`,
-              timeZone: "America/Los_Angeles",
-            },
-            end: {
-              dateTime: `${endDate}`,
-              timeZone: "America/Los_Angeles",
-            },
-            reminders: {
-              useDefault: false,
-              overrides: [
-                { method: "email", minutes: 24 * 60 },
-                { method: "popup", minutes: 10 },
-              ],
-            },
-          };
+  //     gapi.auth2
+  //       .getAuthInstance()
+  //       .signIn()
+  //       .then(() => {
+  //         const eventInfo = {
+  //           summary: `${event.title} @ ${event.venue}`,
+  //           location: `${event.address}`,
+  //           description: `${event.details}, $${event.cover} cover, ${event.link}`,
+  //           start: {
+  //             dateTime: `${dateTime}`,
+  //             timeZone: "America/Los_Angeles",
+  //           },
+  //           end: {
+  //             dateTime: `${endDate}`,
+  //             timeZone: "America/Los_Angeles",
+  //           },
+  //           reminders: {
+  //             useDefault: false,
+  //             overrides: [
+  //               { method: "email", minutes: 24 * 60 },
+  //               { method: "popup", minutes: 10 },
+  //             ],
+  //           },
+  //         };
 
-          const request = gapi.client.calendar.events.insert({
-            calendarId: "primary",
-            resource: eventInfo,
-          });
+  //         const request = gapi.client.calendar.events.insert({
+  //           calendarId: "primary",
+  //           resource: eventInfo,
+  //         });
 
-          request.execute((event) => {
-            console.log(event);
-            window.open(event.htmlLink);
-          });
-        });
-    });
-  };
+  //         request.execute((event) => {
+  //           console.log(event);
+  //           window.open(event.htmlLink);
+  //         });
+  //       });
+  //   });
+  // };
 
   const handleAlert = () => {
     setAlert(true);
@@ -76,7 +78,7 @@ function Event({ event, setTrigger, currentUser }) {
     axios
       .delete(`${import.meta.env.VITE_SERVER_URL}/events/${event._id}`, config)
       .then((res) => {
-        setTrigger("deleted");
+        // setTrigger("deleted");
         setAlert(false);
       })
       .catch(console.log);
@@ -84,7 +86,7 @@ function Event({ event, setTrigger, currentUser }) {
 
   const loggedIn = (
     <div className="logged-in">
-      <p>--------------------</p>
+      <hr />
       <Link to={`/events/${event._id}`}>Edit Event</Link>
       {!alert ? (
         <button onClick={handleAlert}>Delete Event</button>

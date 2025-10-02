@@ -28,29 +28,28 @@ body {
 }
 
 header {
+  width: 100%;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
   background-color: black;
+  justify-content: space-evenly;
   color: white;
 }
 
-header > h1 {
-  margin: 30px;
-}
-
-header > a {
-  font-size: 20px;
+header > a,
+header > nav > a {
+  font-size: 1.5rem;
   text-decoration: none;
   color: white;
 }
 
-header > a:hover {
+header > a:hover,
+header > nav > a:hover {
   text-decoration: underline;
   font-weight: bold;
 }
 
-button {
+.button {
   display: block;
   margin: 10px 0;
   background-color: rgba(255, 255, 255, 0);
@@ -61,14 +60,26 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.button:hover {
   background-color: rgb(255, 255, 255);
   color: black;
-  /* border: 1px solid black; */
 }
 
 .invalid {
   border-color: red;
+}
+
+.log-out-button {
+  font-family: inherit;
+  border: none;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: white;
+}
+
+.log-out-button:hover {
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 input,
