@@ -3,35 +3,29 @@ import venues from "../constants/venues";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { CirclePicker } from "react-color";
+import { useCreateEvent } from "@/hooks/useCreateEvent";
 
-function Form({ foundEvent, setTrigger }) {
+function Form({ foundEvent }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ ...foundEvent });
   const [color, setColor] = useState("");
+  const { mutate } = useCreateEvent();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("jwt");
-    const config = {
-      headers: { Authorization: `${token}` },
+
+    const formValues = {
+      ...formData,
+      color: color ? color : randomColor(),
     };
+
     if (!foundEvent) {
-      axios
-        .post(
-          `${import.meta.env.VITE_SERVER_URL}/events/new`,
-          {
-            ...formData,
-            color: !color ? randomColor() : color,
-          },
-          config
-        )
-        .then((response) => {
-          console.log(response.data);
-          setTrigger("created");
-          navigate("/");
-        })
-        .catch(console.log);
+      mutate(formValues);
     } else {
+      const token = localStorage.getItem("jwt");
+      const config = {
+        headers: { Authorization: `${token}` },
+      };
       axios
         .put(
           `${import.meta.env.VITE_SERVER_URL}/events/${foundEvent._id}/edit`,
@@ -40,7 +34,7 @@ function Form({ foundEvent, setTrigger }) {
         )
         .then((response) => {
           console.log(response.data);
-          setTrigger("edited");
+          // setTrigger("edited");
           navigate("/");
         })
         .catch(console.log);

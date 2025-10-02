@@ -1,11 +1,7 @@
 import Form from "../components/Form";
 
-function NewEvent({ setTrigger, currentUser }) {
-  return (
-    <div>
-      <Form setTrigger={setTrigger} currentUser={currentUser} />
-    </div>
-  );
+function NewEvent() {
+  return <Form />;
 }
 
 export default NewEvent;
