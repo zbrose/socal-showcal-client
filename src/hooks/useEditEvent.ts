@@ -1,20 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Enums } from "@/enums/enums";
 
-export const useCreateEvent = () => {
+export const useEditEvent = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["create-event"],
+    mutationKey: ["edit-event"],
     mutationFn: async (formValues: any) => {
       const token = localStorage.getItem("jwt");
       const config = {
         headers: { Authorization: `${token}` },
       };
-      return await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/events/new`,
+      return await axios.put(
+        `${import.meta.env.VITE_SERVER_URL}/events/${params.id}/edit`,
         formValues,
         config
       );
