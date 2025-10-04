@@ -26,7 +26,6 @@ export const useLogin = () => {
       localStorage.setItem("jwt", token);
       try {
         const decoded = jwtDecode<JwtPayload>(token);
-        console.log(decoded);
         setCurrentUser(decoded);
       } catch (error) {
         console.log(error);
