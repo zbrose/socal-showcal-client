@@ -110,7 +110,6 @@ const EventForm = () => {
           id="address"
           value={formData.address || "default"}
           onChange={handleChange}
-          placeholder="Select a Venue"
           required
         >
           <option value="default" disabled hidden>

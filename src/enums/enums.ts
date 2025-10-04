@@ -18,5 +18,8 @@ export const Enums = {
     LOGIN: "Log In",
     LOADING: "Loading.  Please Wait...",
     NO_EVENTS: "No upcoming events were found.",
+    DELETE: "Delete",
+    CANCEL: "Cancel",
+    ASK: "Are you sure?",
   },
 } as const;
