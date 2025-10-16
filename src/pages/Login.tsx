@@ -27,8 +27,6 @@ function Login() {
     setForm({ ...form, [field]: input });
   };
 
-  console.log(error);
-
   return (
     <div>
       <h1>Login: </h1>

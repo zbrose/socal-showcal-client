@@ -1,19 +1,21 @@
-import { useState } from "react";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Navigate, Link } from "react-router";
+import { FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { RegisterForm } from "@/types/registerForm";
+import { useRegister } from "@/hooks/useRegister";
 
-function Register({ setCurrentUser, currentUser }) {
-  const [form, setForm] = useState({
+const Register = () => {
+  const [form, setForm] = useState<RegisterForm>({
     username: "",
     email: "",
     password: "",
-    passwordConfirmation: "",
+    confirmation: "",
   });
   const [msg, setMsg] = useState("");
+  const { mutate: registerUser, error } = useRegister();
+  const navigate = useNavigate();
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
     if (!passwordRegex.test(form.password)) {
@@ -23,28 +25,19 @@ function Register({ setCurrentUser, currentUser }) {
       return;
     }
 
-    if (form.password !== form.passwordConfirmation) {
+    if (form.password !== form.confirmation) {
       setMsg("The passwords you entered do not match.");
       return;
     }
 
-    try {
-      const { passwordConfirmation, ...formData } = form;
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/users/register`,
-        formData
-      );
-      const { token } = response.data;
-      const decoded = jwtDecode(token);
+    registerUser(form, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
 
-      localStorage.setItem("jwt", token);
-      setCurrentUser(decoded);
-      console.log(decoded);
-    } catch (err) {
-      if (err.response) {
-        setMsg(err.response.data.msg);
-      }
-      console.log(err);
+    if (error) {
+      setMsg(error?.response?.data.msg ?? "There was an error");
       setForm((prevForm) => ({
         ...prevForm,
         password: "",
@@ -53,7 +46,6 @@ function Register({ setCurrentUser, currentUser }) {
     }
   };
 
-  if (currentUser) return <Navigate to="/" />;
   return (
     <div>
       <h1>Register: </h1>
@@ -92,16 +84,14 @@ function Register({ setCurrentUser, currentUser }) {
           className={msg ? "invalid" : ""}
         />
 
-        <label htmlFor="passwordConfirmation">Confirmation:</label>
+        <label htmlFor="confirmation">Confirmation:</label>
         <input
           required
           type="password"
-          id="password"
+          id="confirmation"
           placeholder="confirm password"
-          onChange={(e) =>
-            setForm({ ...form, passwordConfirmation: e.target.value })
-          }
-          value={form.passwordConfirmation}
+          onChange={(e) => setForm({ ...form, confirmation: e.target.value })}
+          value={form.confirmation}
           className={msg ? "invalid" : ""}
         />
 
@@ -110,6 +100,6 @@ function Register({ setCurrentUser, currentUser }) {
       <Link to="/">Back</Link>
     </div>
   );
-}
+};
 
 export default Register;
