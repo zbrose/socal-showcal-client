@@ -1,5 +1,5 @@
 // import Event from "./Event";
-// import { Link } from "react-router-dom";
+// import { Link } from "react-router";
 
 // function ShowEvents({ events, setTrigger }) {
 //   const eventsList = events.map((event, i) => {

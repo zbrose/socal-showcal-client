@@ -22,7 +22,16 @@ export default defineConfig([
       "@typescript-eslint": tseslint,
     },
     rules: {
-      "no-unused-vars": "error",
+      "no-unused-vars": "off", // disable base rule so TS plugin can handle types
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          vars: "all",
+          args: "none",
+          varsIgnorePattern: "^_",
+          caughtErrors: "none",
+        },
+      ],
       "react/react-in-jsx-scope": "off", // not needed in React 17+
     },
     settings: {

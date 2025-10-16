@@ -1,7 +1,20 @@
-TO DO:
-- style
-- upload user images?
-- delete event 24hours after its taken place
-- pull details out of dropping a link?
+# SoCal Show App
 
+This application was developed as a way to share music concerts and goings-on with your friends.
 
+## Technologies
+
+### Frontend
+
+- Typescipt
+- React
+- TanStack Query
+- Vite
+- Jest
+
+### Backend
+
+- Node
+- Express
+- MongoDB
+- Mongoose ODM

@@ -1,59 +1,44 @@
-import axios from "axios";
 import venues from "../constants/venues";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useParams } from "react-router";
+import { useCreateEvent } from "@/hooks/useCreateEvent";
+import { useGetEvents } from "@/hooks/useGetEvents";
+import { Event } from "@/types/events";
 import { CirclePicker } from "react-color";
+import { useEditEvent } from "@/hooks/useEditEvent";
 
-function Form({ foundEvent, setTrigger }) {
-  const navigate = useNavigate();
+const EventForm = () => {
+  const params = useParams();
+  const { data: events } = useGetEvents();
+  const { mutate: createEvent } = useCreateEvent();
+  const { mutate: editEvent } = useEditEvent();
+  const foundEvent = events?.find((event: Event) => event._id === params.id);
+
   const [formData, setFormData] = useState({ ...foundEvent });
   const [color, setColor] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    const token = localStorage.getItem("jwt");
-    const config = {
-      headers: { Authorization: `${token}` },
+
+    const formValues = {
+      ...formData,
+      color: color ? color : randomColor(),
     };
+
     if (!foundEvent) {
-      axios
-        .post(
-          `${import.meta.env.VITE_SERVER_URL}/events/new`,
-          {
-            ...formData,
-            color: !color ? randomColor() : color,
-          },
-          config
-        )
-        .then((response) => {
-          console.log(response.data);
-          setTrigger("created");
-          navigate("/");
-        })
-        .catch(console.log);
+      createEvent(formValues);
     } else {
-      axios
-        .put(
-          `${import.meta.env.VITE_SERVER_URL}/events/${foundEvent._id}/edit`,
-          formData,
-          config
-        )
-        .then((response) => {
-          console.log(response.data);
-          setTrigger("edited");
-          navigate("/");
-        })
-        .catch(console.log);
+      editEvent(formValues);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const sel = document.querySelector("select");
-    const venueName = sel.options[sel.selectedIndex].text;
+    const venueName = sel?.options[sel.selectedIndex].text;
     setFormData({ ...formData, address: e.target.value, venue: venueName });
   };
 
-  const handleColor = (color) => {
+  const handleColor = (color: any) => {
     setColor(color.hex);
     setFormData({ ...formData, color: color.hex });
   };
@@ -125,7 +110,6 @@ function Form({ foundEvent, setTrigger }) {
           id="address"
           value={formData.address || "default"}
           onChange={handleChange}
-          placeholder="Select a Venue"
           required
         >
           <option value="default" disabled hidden>
@@ -199,6 +183,6 @@ function Form({ foundEvent, setTrigger }) {
       <Link to="/"> Back </Link>
     </div>
   );
-}
+};
 
-export default Form;
+export default EventForm;
