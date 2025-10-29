@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { RegisterForm } from "@/types/registerForm";
 import { useRegister } from "@/hooks/useRegister";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
   const [form, setForm] = useState<RegisterForm>({
@@ -13,10 +14,22 @@ const Register = () => {
   const [msg, setMsg] = useState("");
   const { mutate: registerUser, error } = useRegister();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<RegisterForm>({
+    mode: "all",
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmation: "",
+    },
+  });
 
-  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const onSubmit = (data: RegisterForm) => {
     const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
     if (!passwordRegex.test(form.password)) {
       setMsg(
@@ -50,7 +63,7 @@ const Register = () => {
     <div>
       <h1>Register: </h1>
       <p style={{ color: "red" }}>{msg ? msg : ""}</p>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="name">User Name:</label>
         <input
           required

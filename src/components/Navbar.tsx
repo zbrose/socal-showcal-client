@@ -1,5 +1,5 @@
 import { useUserStore } from "@/store/userStore";
-import { Link, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Enums } from "@/enums/enums";
 
 const Navbar = () => {
@@ -15,27 +15,25 @@ const Navbar = () => {
 
   return (
     <header>
-      <Link to={Enums.ROUTES.HOME}>
-        <h1>SoCal Show Cal</h1>
-      </Link>
+      <h1 className="title">SoCal Show Cal</h1>
 
-      <Link to={Enums.ROUTES.HOME}>Events</Link>
+      <NavLink to={Enums.ROUTES.HOME}>Events</NavLink>
 
       {currentUser ? (
         <>
-          <Link to={Enums.ROUTES.NEW_EVENT}>Add New Event</Link>
+          <NavLink to={Enums.ROUTES.NEW_EVENT}>Add New Event</NavLink>
           <button
             className="log-out-button"
             onClick={handleLogout}
             aria-label="Log out"
           >
-            Log out
+            Log out, {currentUser.username}
           </button>
         </>
       ) : (
         <>
-          <Link to={Enums.ROUTES.REGISTER}>{Enums.LABELS.REGISTER}</Link>
-          <Link to={Enums.ROUTES.LOGIN}>{Enums.LABELS.LOGIN}</Link>
+          <NavLink to={Enums.ROUTES.REGISTER}>{Enums.LABELS.REGISTER}</NavLink>
+          <NavLink to={Enums.ROUTES.LOGIN}>{Enums.LABELS.LOGIN}</NavLink>
         </>
       )}
     </header>

@@ -3,23 +3,38 @@ import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { useCreateEvent } from "@/hooks/useCreateEvent";
 import { useGetEvents } from "@/hooks/useGetEvents";
-import { Event } from "@/types/events";
+import { CreateForm, EventType } from "@/types/event";
 import { CirclePicker } from "react-color";
 import { useEditEvent } from "@/hooks/useEditEvent";
+import CustomAddressForm from "./CustomAddressForm";
+import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 
 const EventForm = () => {
   const params = useParams();
   const { data: events } = useGetEvents();
   const { mutate: createEvent } = useCreateEvent();
   const { mutate: editEvent } = useEditEvent();
-  const foundEvent = events?.find((event: Event) => event._id === params.id);
+  const foundEvent: CreateForm = events?.find(
+    (event: EventType) => String(event._id) === params.id
+  );
 
-  const [formData, setFormData] = useState({ ...foundEvent });
+  const [formData, setFormData] = useState<CreateForm>(foundEvent);
   const [color, setColor] = useState("");
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateForm>({
+    mode: "onChange",
+    defaultValues: {
+      title: "",
+    },
+  });
 
+  const onSubmit = () => {
     const formValues = {
       ...formData,
       color: color ? color : randomColor(),
@@ -30,12 +45,6 @@ const EventForm = () => {
     } else {
       editEvent(formValues);
     }
-  };
-
-  const handleChange = (e: any) => {
-    const sel = document.querySelector("select");
-    const venueName = sel?.options[sel.selectedIndex].text;
-    setFormData({ ...formData, address: e.target.value, venue: venueName });
   };
 
   const handleColor = (color: any) => {
@@ -49,69 +58,26 @@ const EventForm = () => {
       .padStart(6, "0")}`;
   }
 
-  const otherAddress = (
-    <>
-      <label htmlFor="customVenueName">Custom Venue Name: </label>
-      <input
-        type="text"
-        id="customVenueName"
-        value={formData.customVenueName}
-        onChange={(e) =>
-          setFormData({ ...formData, customVenueName: e.target.value })
-        }
-      />
-      <label htmlFor="otherAddress">Address: </label>
-      <input
-        type="text"
-        id="otherAddress"
-        value={formData.otherAddress}
-        onChange={(e) =>
-          setFormData({ ...formData, otherAddress: e.target.value })
-        }
-      />
-      <label htmlFor="city">City: </label>
-      <input
-        type="text"
-        id="city"
-        value={formData.city}
-        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-      />
-      <label htmlFor="state">State: </label>
-      <input
-        type="text"
-        id="state"
-        value={formData.state}
-        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-      />
-      <label htmlFor="zipcode">Zip: </label>
-      <input
-        type="number"
-        id="zipcode"
-        value={formData.zipcode}
-        onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
-      />
-    </>
-  );
-
   return (
     <div>
-      <form onSubmit={handleSubmit} style={{ backgroundColor: color }}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{ backgroundColor: color }}
+      >
         <label htmlFor="title">Title: </label>
         <input
           type="text"
           id="title"
-          value={formData.title}
-          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          required
+          {...(register("title"), { required: true })}
+          aria-invalid={errors.title ? "true" : "false"}
+          placeholder="Enter a title for your event..."
         />
+        {errors.title?.type === "required" && (
+          <p role="alert">Title is required</p>
+        )}
 
         <label htmlFor="address">Venue: </label>
-        <select
-          id="address"
-          value={formData.address || "default"}
-          onChange={handleChange}
-          required
-        >
+        <select id="address" value={formData?.address || "default"} required>
           <option value="default" disabled hidden>
             Select a Venue
           </option>
@@ -126,13 +92,15 @@ const EventForm = () => {
           <option value={venues.other}>Other</option>
         </select>
 
-        {formData.address === venues.other ? otherAddress : ""}
+        {formData?.address === venues.other && (
+          <CustomAddressForm setFormData={setFormData} formData={formData} />
+        )}
 
         <label htmlFor="date">Date: </label>
         <input
           type="date"
           id="date"
-          value={formData.date}
+          value={formData?.date}
           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
           required
         />
@@ -141,7 +109,7 @@ const EventForm = () => {
         <input
           type="time"
           id="time"
-          value={formData.time}
+          value={formData?.time}
           onChange={(e) => setFormData({ ...formData, time: e.target.value })}
         />
 
@@ -149,7 +117,7 @@ const EventForm = () => {
         <input
           type="text"
           id="link"
-          value={formData.link}
+          value={formData?.link}
           onChange={(e) => setFormData({ ...formData, link: e.target.value })}
           required
         />
@@ -158,7 +126,7 @@ const EventForm = () => {
         <input
           type="number"
           id="cover"
-          value={formData.cover}
+          value={formData?.cover}
           onChange={(e) => setFormData({ ...formData, cover: e.target.value })}
           required
         />
@@ -168,7 +136,7 @@ const EventForm = () => {
           style={{ width: "100%", height: "150px" }}
           name="details"
           id="details"
-          value={formData.details}
+          value={formData?.details}
           onChange={(e) =>
             setFormData({ ...formData, details: e.target.value })
           }
@@ -181,6 +149,7 @@ const EventForm = () => {
         <input type="submit" />
       </form>
       <Link to="/"> Back </Link>
+      <DevTool control={control} />
     </div>
   );
 };

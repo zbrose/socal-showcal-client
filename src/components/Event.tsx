@@ -3,13 +3,18 @@ import { useState } from "react";
 import { useUserStore } from "@/store/userStore";
 import { useDeleteEvent } from "@/hooks/useDeleteEvent";
 import EventFooter from "./EventFooter";
+import { EventType } from "@/types/event";
 
-function Event({ event }) {
+interface EventProps {
+  event: EventType;
+}
+
+const Event = ({ event }: EventProps) => {
   const [confirmation, setConfirmation] = useState(false);
   const currentUser = useUserStore((state) => state.currentUser);
   const { mutate: deleteEvent } = useDeleteEvent();
 
-  const isCurrentUser = currentUser && event.user[0]?._id === currentUser?.id;
+  const isCurrentUser = currentUser && event?.user[0]?._id === currentUser?._id;
 
   const handleConfirmation = () => {
     setConfirmation(true);
@@ -44,7 +49,7 @@ function Event({ event }) {
         </a>
         <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
         <p>{event.details && event.details}</p>
-        <p>Posted by: {isCurrentUser ? "You" : event.user[0].username}</p>
+        <p>Posted by: {isCurrentUser ? "You" : event?.user[0]?.username}</p>
 
         {event.link && (
           <a href={event.link} target="_blank" rel="noreferrer">
@@ -64,6 +69,6 @@ function Event({ event }) {
       )}
     </div>
   );
-}
+};
 
 export default Event;
