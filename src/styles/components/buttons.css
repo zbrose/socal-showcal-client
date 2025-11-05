@@ -1,0 +1,76 @@
+/* Buttons and interactive controls
+   NOTE: avoid broad element selectors (e.g. plain `button`) so styles
+   only apply when a component opts-in using a class. Use `.button` or
+   `.btn` on elements (including anchor tags) to get button styles. */
+.button,
+.btn,
+a.button,
+input[type="submit"],
+input[type="button"] {
+  display: inline-block;
+  margin: 10px 0;
+  background-color: var(--primary-black);
+  border: 2px solid var(--primary-black);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: var(--primary-white);
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all var(--transition-speed);
+}
+
+.button:hover,
+.btn:hover,
+a.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background-color: var(--primary-white);
+  color: var(--primary-black);
+  transform: translateY(-1px);
+}
+
+.button:focus,
+.btn:focus,
+a.button:focus,
+input[type="submit"]:focus,
+input[type="button"]:focus {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Primary submit/button sizing - responsive */
+input[type="submit"] {
+  background-color: var(--primary-black);
+  color: var(--primary-white);
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 120px;
+  width: auto;
+}
+
+input[type="submit"]:hover {
+  background-color: #222222;
+}
+
+/* Logout button specific styles */
+.log-out-button {
+  font-family: inherit;
+  border: none;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: var(--primary-white);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all var(--transition-speed);
+}
+
+.log-out-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-decoration: underline;
+  font-weight: bold;
+}

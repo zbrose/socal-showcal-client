@@ -14,7 +14,7 @@ const Event = ({ event }: EventProps) => {
   const currentUser = useUserStore((state) => state.currentUser);
   const { mutate: deleteEvent } = useDeleteEvent();
 
-  const isCurrentUser = currentUser && event?.user[0]?._id === currentUser?._id;
+  const isCurrentUser = currentUser && event?.user[0]?._id === currentUser?.id;
 
   const handleConfirmation = () => {
     setConfirmation(true);
@@ -40,7 +40,7 @@ const Event = ({ event }: EventProps) => {
           href={`http://www.google.com/maps/?q=${
             event.address !== ""
               ? event.address
-              : event.otherAddress + event.city + event.state + event.zipcode
+              : event?.otherAddress + event?.city + event.state + event.zipcode
           }`}
         >
           {event.address

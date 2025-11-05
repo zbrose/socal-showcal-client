@@ -75,7 +75,6 @@ const EventForm = () => {
         {errors.title?.type === "required" && (
           <p role="alert">Title is required</p>
         )}
-
         <label htmlFor="address">Venue: </label>
         <select id="address" value={formData?.address || "default"} required>
           <option value="default" disabled hidden>
@@ -91,11 +90,9 @@ const EventForm = () => {
           <option value={venues.goldFish}>The Goldfish</option>
           <option value={venues.other}>Other</option>
         </select>
-
         {formData?.address === venues.other && (
           <CustomAddressForm setFormData={setFormData} formData={formData} />
         )}
-
         <label htmlFor="date">Date: </label>
         <input
           type="date"
@@ -104,7 +101,6 @@ const EventForm = () => {
           onChange={(e) => setFormData({ ...formData, date: e.target.value })}
           required
         />
-
         <label htmlFor="time">Time: </label>
         <input
           type="time"
@@ -112,7 +108,6 @@ const EventForm = () => {
           value={formData?.time}
           onChange={(e) => setFormData({ ...formData, time: e.target.value })}
         />
-
         <label htmlFor="link">Event Link: </label>
         <input
           type="text"
@@ -121,7 +116,6 @@ const EventForm = () => {
           onChange={(e) => setFormData({ ...formData, link: e.target.value })}
           required
         />
-
         <label htmlFor="cover">Cover Charge: </label>
         <input
           type="number"
@@ -130,7 +124,6 @@ const EventForm = () => {
           onChange={(e) => setFormData({ ...formData, cover: e.target.value })}
           required
         />
-
         <label htmlFor="details">Additional Info: </label>
         <textarea
           style={{ width: "100%", height: "150px" }}
@@ -141,11 +134,14 @@ const EventForm = () => {
             setFormData({ ...formData, details: e.target.value })
           }
         ></textarea>
-
-        <label htmlFor="color">Select a Color: </label>
-
-        <CirclePicker id="color" color={color} onChangeComplete={handleColor} />
-
+        <p>Select a Color:</p>
+        <div className="center">
+          <CirclePicker
+            id="color"
+            color={color}
+            onChangeComplete={handleColor}
+          />
+        </div>
         <input type="submit" />
       </form>
       <Link to="/"> Back </Link>

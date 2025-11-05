@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router";
-import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EventForm from "./components/EventForm";
+import EventsPage from "./pages/Events";
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<EventsPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/events/new" element={<EventForm />} />

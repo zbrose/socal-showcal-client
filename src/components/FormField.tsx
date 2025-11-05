@@ -35,7 +35,9 @@ const FormField = ({
       <div className="input-container">
         <input
           className="form-field"
-          type={type}
+          type={
+            type === "password" ? (showPassword ? "text" : "password") : type
+          }
           id={name}
           placeholder={placeholder}
           {...register(name, { required: required })}
@@ -46,7 +48,7 @@ const FormField = ({
             type="button"
             className="show-password-btn"
             onClick={() => setShowPassword(!showPassword)}
-            aria-label="Show password"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
               <FontAwesomeIcon icon={faEyeSlash} />
@@ -57,7 +59,7 @@ const FormField = ({
         )}
       </div>
 
-      {errors.name?.type === "required" && (
+      {errors[name]?.type === "required" && (
         <p className="error" role="alert">
           {name} is required
         </p>

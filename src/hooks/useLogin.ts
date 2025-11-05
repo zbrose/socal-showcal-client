@@ -32,7 +32,7 @@ export const useLogin = () => {
         }>(token);
 
         setCurrentUser({
-          _id: decoded.id,
+          id: decoded.id,
           username: decoded.username,
           email: decoded.email,
         });
