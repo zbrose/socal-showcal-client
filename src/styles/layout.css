@@ -1,7 +1,7 @@
 /* Layout primitives: header, form container, grid/alerts and helpers */
 .flex-row {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-evenly;
   gap: 0.75rem;
   width: 100%;
 }
@@ -20,6 +20,7 @@
 .events-container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
 .event {

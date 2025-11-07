@@ -2,7 +2,7 @@ import { useGetEvents } from "@/hooks/useGetEvents";
 import { EventType } from "@/types/event";
 import { Enums } from "@/enums/enums";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import Event from "@/components/Event";
+import Event from "@/components/events/Event";
 
 const EventsPage = () => {
   const { data: events, isLoading } = useGetEvents();
@@ -12,11 +12,14 @@ const EventsPage = () => {
   }
 
   return (
-    <ErrorBoundary fallback={<h2>There was an error getting events...</h2>}>
+    <ErrorBoundary
+      fallback={<h2>There was an error getting events. Check back later.</h2>}
+      onError={(error, info) => console.error("Error caught:", error, info)}
+    >
       <div className="events-container">
-        {events[0] ? (
+        {events ? (
           events?.map((event: EventType) => (
-            <Event key={event._id} event={event} />
+            <Event key={event?._id} event={event} />
           ))
         ) : (
           <h2>{Enums.LABELS.NO_EVENTS}</h2>

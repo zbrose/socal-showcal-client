@@ -1,25 +1,15 @@
-import { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { RegisterForm } from "@/types/registerForm";
 import { useRegister } from "@/hooks/useRegister";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import BasicInput from "@/components/inputs/BasicInput";
+import { DevTool } from "@hookform/devtools";
+import PasswordInput from "@/components/inputs/PasswordInput";
 
 const Register = () => {
-  const [form, setForm] = useState<RegisterForm>({
-    username: "",
-    email: "",
-    password: "",
-    confirmation: "",
-  });
-  const [msg, setMsg] = useState("");
-  const { mutate: registerUser, error } = useRegister();
+  const { mutate: registerUser, isPending } = useRegister();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm<RegisterForm>({
+  const methods = useForm<RegisterForm>({
     mode: "all",
     defaultValues: {
       username: "",
@@ -30,88 +20,63 @@ const Register = () => {
   });
 
   const onSubmit = (data: RegisterForm) => {
-    const passwordRegex = /^(?=.*\d)(?=.*[\W_]).{8,}$/;
-    if (!passwordRegex.test(form.password)) {
-      setMsg(
-        "Password must be at least 8 characters long and include at least one number and one special character."
-      );
-      return;
-    }
-
-    if (form.password !== form.confirmation) {
-      setMsg("The passwords you entered do not match.");
-      return;
-    }
-
-    registerUser(form, {
+    registerUser(data, {
       onSuccess: () => {
         navigate("/");
       },
     });
-
-    if (error) {
-      setMsg(error?.response?.data.msg ?? "There was an error");
-      setForm((prevForm) => ({
-        ...prevForm,
-        password: "",
-        passwordConfirmation: "",
-      }));
-    }
   };
 
   return (
-    <div>
+    <FormProvider {...methods}>
       <h1>Register: </h1>
-      <p style={{ color: "red" }}>{msg ? msg : ""}</p>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="name">User Name:</label>
-        <input
-          required
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <BasicInput
+          required={true}
           type="text"
-          id="name"
-          placeholder="name"
-          onChange={(e) => setForm({ ...form, username: e.target.value })}
-          value={form.username}
-          className={msg ? "invalid" : ""}
+          name="username"
+          label="username:"
+          placeholder="username"
+          disabled={isPending}
         />
 
-        <label htmlFor="email">Email:</label>
-        <input
-          required
+        <BasicInput
+          required={true}
           type="email"
-          id="email"
-          placeholder="user@domain.com"
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          value={form.email}
-          className={msg ? "invalid" : ""}
+          name="email"
+          label="email:"
+          placeholder="user@email.com"
+          disabled={isPending}
         />
 
-        <label htmlFor="password">Password:</label>
-        <input
-          required
-          type="password"
-          id="password"
+        <PasswordInput
+          required={true}
+          name="password"
+          label="password:"
           placeholder="password"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          value={form.password}
-          className={msg ? "invalid" : ""}
+          disabled={isPending}
         />
 
-        <label htmlFor="confirmation">Confirmation:</label>
-        <input
-          required
-          type="password"
-          id="confirmation"
+        <PasswordInput
+          required={true}
+          name="confirmation"
+          label="confirm password:"
           placeholder="confirm password"
-          onChange={(e) => setForm({ ...form, confirmation: e.target.value })}
-          value={form.confirmation}
-          className={msg ? "invalid" : ""}
+          disabled={isPending}
         />
-
-        <input type="submit" />
+        <div className="flex-row">
+          <input
+            className="button"
+            type="submit"
+            value={isPending ? "Registering..." : "Register"}
+          />
+          <NavLink className="nav-link" to="/">
+            Cancel
+          </NavLink>
+        </div>
       </form>
-      <Link to="/">Back</Link>
-    </div>
+      <DevTool control={methods.control} />
+    </FormProvider>
   );
 };
 

@@ -1,9 +1,10 @@
-import FormField from "@/components/FormField";
+import BasicInput from "@/components/inputs/BasicInput";
+import PasswordInput from "@/components/inputs/PasswordInput";
 import { useLogin } from "@/hooks/useLogin";
 import { LoginForm } from "@/types/loginForm";
 import { DevTool } from "@hookform/devtools";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 
 function Login() {
   const navigate = useNavigate();
@@ -36,26 +37,34 @@ function Login() {
         </p>
       )}
       <form onSubmit={methods.handleSubmit(onLogin)}>
-        <FormField
+        <BasicInput
           type="text"
           name="email"
-          label="Email:"
+          label="email:"
           required={true}
           placeholder="user@domain.com"
           disabled={isPending}
         />
-        <FormField
-          type="password"
+        <PasswordInput
+          label="password:"
           name="password"
-          label="Password:"
           required={true}
           placeholder="password"
           disabled={isPending}
         />
 
-        <input type="submit" value={isPending ? "Logging in..." : "Login"} />
+        <div className="flex-row">
+          <input
+            className="button"
+            type="submit"
+            value={isPending ? "Logging in..." : "Login"}
+          />
+          <NavLink className="nav-link" to="/">
+            Cancel
+          </NavLink>
+        </div>
       </form>
-      <Link to="/">Back</Link>
+
       <DevTool control={methods.control} />
     </FormProvider>
   );

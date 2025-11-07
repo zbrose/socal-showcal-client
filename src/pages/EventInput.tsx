@@ -6,15 +6,18 @@ import { useGetEvents } from "@/hooks/useGetEvents";
 import { CreateForm, EventType } from "@/types/event";
 import { CirclePicker } from "react-color";
 import { useEditEvent } from "@/hooks/useEditEvent";
-import CustomAddressForm from "./CustomAddressForm";
-import { useForm } from "react-hook-form";
+import CustomAddressForm from "../components/form/CustomAddressForm";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import BasicInput from "../components/inputs/BasicInput";
+import SelectInput from "../components/inputs/SelectInput";
 
-const EventForm = () => {
+const EventInput = () => {
   const params = useParams();
   const { data: events } = useGetEvents();
-  const { mutate: createEvent } = useCreateEvent();
-  const { mutate: editEvent } = useEditEvent();
+  const { mutate: createEvent, isPending: createEventPending } =
+    useCreateEvent();
+  const { mutate: editEvent, isPending: editEventPending } = useEditEvent();
   const foundEvent: CreateForm = events?.find(
     (event: EventType) => String(event._id) === params.id
   );
@@ -22,17 +25,14 @@ const EventForm = () => {
   const [formData, setFormData] = useState<CreateForm>(foundEvent);
   const [color, setColor] = useState("");
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateForm>({
+  const methods = useForm<CreateForm>({
     mode: "onChange",
     defaultValues: {
       title: "",
     },
   });
+
+  const { handleSubmit, control } = methods;
 
   const onSubmit = () => {
     const formValues = {
@@ -59,40 +59,40 @@ const EventForm = () => {
   }
 
   return (
-    <div>
+    <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{ backgroundColor: color }}
       >
-        <label htmlFor="title">Title: </label>
-        <input
+        <BasicInput
           type="text"
-          id="title"
-          {...(register("title"), { required: true })}
-          aria-invalid={errors.title ? "true" : "false"}
-          placeholder="Enter a title for your event..."
+          name="title"
+          label="event title:"
+          required={true}
+          placeholder="Event title"
+          disabled={editEventPending || createEventPending}
         />
-        {errors.title?.type === "required" && (
-          <p role="alert">Title is required</p>
-        )}
-        <label htmlFor="address">Venue: </label>
-        <select id="address" value={formData?.address || "default"} required>
-          <option value="default" disabled hidden>
-            Select a Venue
-          </option>
-          <option value={venues.eta}>ETA Highland Park</option>
-          <option value={venues.goldDiggers}>Gold Diggers</option>
-          <option value={venues.hollywoodBowl}>Hollywood Bowl</option>
-          <option value={venues.theEcho}>The Echo</option>
-          <option value={venues.theWiltern}>The Wiltern</option>
-          <option value={venues.zebulon}>Zebulon</option>
-          <option value={venues.picoUnion}>Pico Union Project</option>
-          <option value={venues.goldFish}>The Goldfish</option>
-          <option value={venues.other}>Other</option>
-        </select>
+
+        <Controller
+          name="venue"
+          control={control}
+          rules={{ required: "Venue is required" }}
+          render={({ field, fieldState: { error } }) => (
+            <SelectInput
+              name={field.name}
+              label="Venue:"
+              options={venues}
+              value={field.value ?? ""}
+              onChange={field.onChange} // receives string
+              error={error?.message}
+            />
+          )}
+        />
+        {/* 
         {formData?.address === venues.other && (
           <CustomAddressForm setFormData={setFormData} formData={formData} />
-        )}
+        )} */}
+
         <label htmlFor="date">Date: </label>
         <input
           type="date"
@@ -136,18 +136,14 @@ const EventForm = () => {
         ></textarea>
         <p>Select a Color:</p>
         <div className="center">
-          <CirclePicker
-            id="color"
-            color={color}
-            onChangeComplete={handleColor}
-          />
+          <CirclePicker color={color} onChangeComplete={handleColor} />
         </div>
         <input type="submit" />
       </form>
       <Link to="/"> Back </Link>
-      <DevTool control={control} />
-    </div>
+      <DevTool control={methods.control} />
+    </FormProvider>
   );
 };
 
-export default EventForm;
+export default EventInput;

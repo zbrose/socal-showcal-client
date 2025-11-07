@@ -37,17 +37,6 @@ input:focus {
   width: 100%;
 }
 
-.show-password-btn {
-  border: none;
-  font-size: 1rem;
-  background-color: transparent;
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0.5rem;
-}
-
 label {
   padding: 10px;
   display: block;

@@ -1,13 +1,4 @@
-/* Buttons and interactive controls
-   NOTE: avoid broad element selectors (e.g. plain `button`) so styles
-   only apply when a component opts-in using a class. Use `.button` or
-   `.btn` on elements (including anchor tags) to get button styles. */
-.button,
-.btn,
-a.button,
-input[type="submit"],
-input[type="button"] {
-  display: inline-block;
+.button {
   margin: 10px 0;
   background-color: var(--primary-black);
   border: 2px solid var(--primary-black);
@@ -22,42 +13,17 @@ input[type="button"] {
   transition: all var(--transition-speed);
 }
 
-.button:hover,
-.btn:hover,
-a.button:hover,
-input[type="submit"]:hover,
-input[type="button"]:hover {
+.button:hover {
   background-color: var(--primary-white);
   color: var(--primary-black);
   transform: translateY(-1px);
 }
 
-.button:focus,
-.btn:focus,
-a.button:focus,
-input[type="submit"]:focus,
-input[type="button"]:focus {
+.button:focus {
   outline: none;
   box-shadow: var(--focus-ring);
 }
 
-/* Primary submit/button sizing - responsive */
-input[type="submit"] {
-  background-color: var(--primary-black);
-  color: var(--primary-white);
-  padding: 0.8rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  min-width: 120px;
-  width: auto;
-}
-
-input[type="submit"]:hover {
-  background-color: #222222;
-}
-
-/* Logout button specific styles */
 .log-out-button {
   font-family: inherit;
   border: none;
@@ -73,4 +39,26 @@ input[type="submit"]:hover {
   background-color: rgba(255, 255, 255, 0.1);
   text-decoration: underline;
   font-weight: bold;
+}
+
+.show-password-btn {
+  border: none;
+  font-size: 1.2rem;
+  background-color: transparent;
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.5rem;
+  transition: all 0.05s ease-in-out;
+  cursor: pointer;
+}
+
+.show-password-btn:hover {
+  color: rgb(71, 71, 71);
+}
+
+.show-password-btn:active {
+  background-color: var(--primary-white);
+  transform: translateY(calc(-50% + 2px));
 }
