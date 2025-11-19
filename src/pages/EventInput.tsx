@@ -1,12 +1,12 @@
 import venues from "../constants/venues";
 import { useMemo, useState } from "react";
-import { Link, NavLink, useParams } from "react-router";
+import { NavLink, useParams } from "react-router";
 import { useCreateEvent } from "@/hooks/useCreateEvent";
 import { useGetEvents } from "@/hooks/useGetEvents";
 import { CreateForm, EventType } from "@/types/event";
 import { CirclePicker } from "react-color";
 import { useEditEvent } from "@/hooks/useEditEvent";
-import CustomAddressForm from "../components/form/CustomAddressForm";
+// import CustomAddressForm from "../components/form/CustomAddressForm";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import BasicInput from "../components/inputs/BasicInput";
@@ -44,14 +44,25 @@ const EventInput = () => {
   const selectedVenue = watch("venue");
 
   const onSubmit = (data: CreateForm) => {
-    const venueKey = String(data.venue ?? "").toLowerCase();
-    const foundVenue = venueMap.get(venueKey);
-    const address = foundVenue?.address ?? data.address ?? "";
+    const isCustom = String(data.venue).toLowerCase() === "custom address";
 
+    const venueName = isCustom ? data.customVenue : data.venue;
+
+    const venueKey = String(data.venue).toLowerCase();
+
+    const foundVenue = venueMap.get(venueKey);
+    const address = isCustom
+      ? data.address
+      : foundVenue?.address ?? data.address ?? "";
+
+    methods.setValue("venue", venueName);
     methods.setValue("address", address);
 
-    const formValues = {
-      ...data,
+    const { customVenue: _customVenue, ...rest } = data;
+
+    const formValues: CreateForm = {
+      ...rest,
+      venue: venueName,
       address,
       color: color || randomColor(),
     };
@@ -85,7 +96,6 @@ const EventInput = () => {
           name="title"
           label="event title:"
           required={true}
-          placeholder="give your event a title"
           disabled={editEventPending || createEventPending}
         />
 
@@ -107,7 +117,24 @@ const EventInput = () => {
         />
 
         {selectedVenue === "Custom Address" && (
-          <CustomAddressForm setFormData={setFormData} formData={formData} />
+          <>
+            <BasicInput
+              type="text"
+              name="customVenue"
+              label="custom venue name:"
+              placeholder="enter a custom event title"
+              required={true}
+              disabled={editEventPending || createEventPending}
+            />
+            <BasicInput
+              type="text"
+              name="address"
+              label="event address:"
+              placeholder="address, city, state and zip"
+              required={true}
+              disabled={editEventPending || createEventPending}
+            />
+          </>
         )}
 
         <BasicInput
@@ -130,7 +157,6 @@ const EventInput = () => {
           type="text"
           name="link"
           label="event link:"
-          placeholder="add a link to your event"
           disabled={editEventPending || createEventPending}
         />
 
@@ -138,7 +164,6 @@ const EventInput = () => {
           type="number"
           name="price"
           label="ticket price:"
-          placeholder="ticket price"
           min={0}
           disabled={editEventPending || createEventPending}
         />

@@ -1,54 +1,31 @@
-import { CreateForm } from "@/types/event";
+import BasicInput from "../inputs/BasicInput";
 
-interface CustomAddressFormProps {
-  setFormData: (data: any) => void;
-  formData: CreateForm;
-}
-
-const CustomAddressForm = ({
-  setFormData,
-  formData,
-}: CustomAddressFormProps) => {
+const CustomAddressForm = () => {
   return (
     <>
-      <label htmlFor="customVenueName">Custom Venue Name: </label>
-      <input
+      <BasicInput
         type="text"
-        id="customVenueName"
-        value={formData?.customVenueName}
-        onChange={(e) =>
-          setFormData({ ...formData, customVenueName: e.target.value })
-        }
+        name="customName"
+        label="address:"
+        required={true}
       />
-      <label htmlFor="otherAddress">Address: </label>
-      <input
+
+      <BasicInput
         type="text"
-        id="otherAddress"
-        value={formData?.otherAddress}
-        onChange={(e) =>
-          setFormData({ ...formData, otherAddress: e.target.value })
-        }
+        name="customAddress"
+        label="custom venue address:"
+        required={true}
       />
-      <label htmlFor="city">City: </label>
-      <input
-        type="text"
-        id="city"
-        value={formData?.city}
-        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-      />
-      <label htmlFor="state">State: </label>
-      <input
-        type="text"
-        id="state"
-        value={formData?.state}
-        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-      />
-      <label htmlFor="zipcode">Zip: </label>
-      <input
+
+      <BasicInput type="text" name="city" label="city:" required={true} />
+
+      <BasicInput type="text" name="state" label="state:" required={true} />
+
+      <BasicInput
         type="number"
-        id="zipcode"
-        value={formData?.zipcode}
-        onChange={(e) => setFormData({ ...formData, zipcode: e.target.value })}
+        name="zipcode"
+        label="zipcode:"
+        required={true}
       />
     </>
   );

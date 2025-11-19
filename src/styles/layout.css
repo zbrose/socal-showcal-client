@@ -17,31 +17,6 @@
   flex: 3;
 }
 
-.events-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.event {
-  padding: 20px;
-  text-align: left;
-  color: var(--primary-white);
-  transition: transform var(--transition-speed);
-}
-
-.event > div > a {
-  color: var(--primary-white);
-  margin: 5px 0;
-  text-decoration: none;
-  position: relative;
-  transition: all var(--transition-speed);
-}
-
-.event > div > a:hover {
-  text-decoration: underline;
-}
-
 .create-link {
   color: white;
   font-weight: bold;
