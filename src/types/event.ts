@@ -2,21 +2,17 @@ import { User } from "./user";
 
 export type EventType = {
   _id: number;
-  address?: string;
-  color?: string;
-  cover?: string;
-  date?: string;
-  details?: string;
-  link?: string;
-  time?: string;
   title?: string;
-  user: User[];
   venue?: string;
-  customVenueName?: string;
-  otherAddress?: string;
-  city?: string;
-  state?: string;
-  zipcode?: string;
+  customVenue?: string;
+  address?: string;
+  date?: string;
+  time?: string;
+  cover?: string;
+  link?: string;
+  details?: string;
+  color?: string;
+  user: User[];
 };
 
 export type CreateForm = Omit<EventType, "_id" | "user">;

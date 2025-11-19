@@ -24,32 +24,22 @@ const Event = ({ event }: EventProps) => {
     deleteEvent(event?._id);
   };
 
-  console.log(event);
-
   return (
     <div className="event" style={{ backgroundColor: `${event.color}` }}>
-      <div className="event-content">
-        <h1>
+      <div>
+        <h2 className="event-title">
           {event.title} @{" "}
-          {event.venue !== "Custom Address"
-            ? event.venue
-            : event.customVenueName}
-        </h1>
-        <h3>
+          {event.venue !== "Custom Address" ? event.venue : event.customVenue}
+        </h2>
+        <p>
           {dayjs(`${event.date}${event.time}`).format("MMMM D, YYYY @ h:mma")}
-        </h3>
+        </p>
         <a
           target="_blank"
           rel="noreferrer"
-          href={`http://www.google.com/maps/?q=${
-            event.address !== ""
-              ? event.address
-              : event?.otherAddress + event?.city + event.state + event.zipcode
-          }`}
+          href={`http://www.google.com/maps/?q=${event.address}`}
         >
-          {event.address
-            ? event.address
-            : `${event.otherAddress}, ${event.city}, ${event.state} ${event.zipcode} `}
+          {event.address}
         </a>
         <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
         <p>{event.details && event.details}</p>
