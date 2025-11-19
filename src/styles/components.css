@@ -1,0 +1,6 @@
+/* Component index: import per-component styles */
+@import "./components/inputs.css";
+@import "./components/textarea.css";
+@import "./components/selects.css";
+@import "./components/buttons.css";
+@import "./components/validation.css";
