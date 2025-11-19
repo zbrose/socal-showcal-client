@@ -36,7 +36,7 @@ const venues = [
   },
   {
     id: 8,
-    name: "Other",
+    name: "Custom Address",
     address: "",
   },
 ];
