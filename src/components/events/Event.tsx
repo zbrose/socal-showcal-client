@@ -24,12 +24,16 @@ const Event = ({ event }: EventProps) => {
     deleteEvent(event?._id);
   };
 
+  console.log(event);
+
   return (
     <div className="event" style={{ backgroundColor: `${event.color}` }}>
       <div className="event-content">
         <h1>
           {event.title} @{" "}
-          {event.venue !== "Other" ? event.venue : event.customVenueName}
+          {event.venue !== "Custom Address"
+            ? event.venue
+            : event.customVenueName}
         </h1>
         <h3>
           {dayjs(`${event.date}${event.time}`).format("MMMM D, YYYY @ h:mma")}

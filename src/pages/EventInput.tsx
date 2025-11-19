@@ -1,6 +1,6 @@
 import venues from "../constants/venues";
-import { useState } from "react";
-import { Link, useParams } from "react-router";
+import { useMemo, useState } from "react";
+import { Link, NavLink, useParams } from "react-router";
 import { useCreateEvent } from "@/hooks/useCreateEvent";
 import { useGetEvents } from "@/hooks/useGetEvents";
 import { CreateForm, EventType } from "@/types/event";
@@ -26,18 +26,34 @@ const EventInput = () => {
   const [color, setColor] = useState("");
 
   const methods = useForm<CreateForm>({
-    mode: "onChange",
-    defaultValues: {
-      title: "",
-    },
+    mode: "all",
   });
 
-  const { handleSubmit, control } = methods;
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { isValid },
+  } = methods;
 
-  const onSubmit = () => {
+  const venueMap = useMemo(
+    () => new Map(venues.map((v) => [v.name.toLowerCase(), v])),
+    []
+  );
+
+  const selectedVenue = watch("venue");
+
+  const onSubmit = (data: CreateForm) => {
+    const venueKey = String(data.venue ?? "").toLowerCase();
+    const foundVenue = venueMap.get(venueKey);
+    const address = foundVenue?.address ?? data.address ?? "";
+
+    methods.setValue("address", address);
+
     const formValues = {
-      ...formData,
-      color: color ? color : randomColor(),
+      ...data,
+      address,
+      color: color || randomColor(),
     };
 
     if (!foundEvent) {
@@ -69,7 +85,7 @@ const EventInput = () => {
           name="title"
           label="event title:"
           required={true}
-          placeholder="Event title"
+          placeholder="give your event a title"
           disabled={editEventPending || createEventPending}
         />
 
@@ -80,67 +96,80 @@ const EventInput = () => {
           render={({ field, fieldState: { error } }) => (
             <SelectInput
               name={field.name}
-              label="Venue:"
+              label="venue:"
               options={venues}
               value={field.value ?? ""}
-              onChange={field.onChange} // receives string
+              onChange={field.onChange}
               error={error?.message}
+              required
             />
           )}
         />
-        {/* 
-        {formData?.address === venues.other && (
-          <CustomAddressForm setFormData={setFormData} formData={formData} />
-        )} */}
 
-        <label htmlFor="date">Date: </label>
-        <input
+        {selectedVenue === "Custom Address" && (
+          <CustomAddressForm setFormData={setFormData} formData={formData} />
+        )}
+
+        <BasicInput
           type="date"
-          id="date"
-          value={formData?.date}
-          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+          name="date"
+          label="event date:"
           required
+          disabled={editEventPending || createEventPending}
         />
-        <label htmlFor="time">Time: </label>
-        <input
+
+        <BasicInput
           type="time"
-          id="time"
-          value={formData?.time}
-          onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+          name="time"
+          label="event time:"
+          required
+          disabled={editEventPending || createEventPending}
         />
-        <label htmlFor="link">Event Link: </label>
-        <input
+
+        <BasicInput
           type="text"
-          id="link"
-          value={formData?.link}
-          onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-          required
+          name="link"
+          label="event link:"
+          placeholder="add a link to your event"
+          disabled={editEventPending || createEventPending}
         />
-        <label htmlFor="cover">Cover Charge: </label>
-        <input
+
+        <BasicInput
           type="number"
-          id="cover"
-          value={formData?.cover}
-          onChange={(e) => setFormData({ ...formData, cover: e.target.value })}
-          required
+          name="price"
+          label="ticket price:"
+          placeholder="ticket price"
+          min={0}
+          disabled={editEventPending || createEventPending}
         />
-        <label htmlFor="details">Additional Info: </label>
-        <textarea
-          style={{ width: "100%", height: "150px" }}
+
+        <Controller
           name="details"
-          id="details"
-          value={formData?.details}
-          onChange={(e) =>
-            setFormData({ ...formData, details: e.target.value })
-          }
-        ></textarea>
+          control={control}
+          render={({ field }) => (
+            <>
+              <label htmlFor="details">event details: </label>
+              <textarea
+                className="details-input"
+                name={field.name}
+                value={field.value}
+                onChange={field.onChange}
+              ></textarea>
+            </>
+          )}
+        />
+
         <p>Select a Color:</p>
         <div className="center">
           <CirclePicker color={color} onChangeComplete={handleColor} />
         </div>
-        <input type="submit" />
+        <div className="flex-row">
+          <input className="button" type="submit" disabled={!isValid} />
+          <NavLink className="nav-link" to="/">
+            Cancel
+          </NavLink>
+        </div>
       </form>
-      <Link to="/"> Back </Link>
       <DevTool control={methods.control} />
     </FormProvider>
   );

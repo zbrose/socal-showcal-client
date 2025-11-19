@@ -4,9 +4,10 @@ interface BasicInputProps {
   name: string;
   label: string;
   type: string;
-  placeholder: string;
-  required: boolean;
+  placeholder?: string;
+  required?: boolean;
   disabled?: boolean;
+  min?: number;
 }
 
 const BasicInput = ({
@@ -16,6 +17,7 @@ const BasicInput = ({
   placeholder,
   required,
   disabled,
+  min,
 }: BasicInputProps) => {
   const {
     register,
@@ -32,6 +34,7 @@ const BasicInput = ({
         className="form-field"
         type={type}
         id={name}
+        min={min}
         placeholder={placeholder}
         {...register(name, { required: required })}
         disabled={disabled}
