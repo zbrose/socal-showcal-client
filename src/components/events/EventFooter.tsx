@@ -1,9 +1,9 @@
-import { Event } from "@/types/events";
 import { Link } from "react-router";
 import { Enums } from "@/enums/enums";
+import { EventType } from "@/types/event";
 
 interface EventFooterProps {
-  event: Event;
+  event: EventType;
   confirmation: boolean;
   handleConfirmation: () => void;
   setConfirmation: (confirmation: boolean) => void;

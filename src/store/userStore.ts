@@ -1,18 +1,19 @@
 import { create } from "zustand";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { User } from "@/types/user";
 
 interface UserStore {
-  currentUser: JwtPayload | null;
-  setCurrentUser: (user: JwtPayload | null) => void;
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
 }
 
 export const useUserStore = create<UserStore>((set) => {
-  let decodedUser: JwtPayload | null = null;
+  let decodedUser: User | null = null;
 
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
-      decodedUser = jwtDecode<JwtPayload>(token);
+      decodedUser = jwtDecode<User>(token);
     } catch (err) {
       console.error("Invalid token in localStorage:", err);
       localStorage.removeItem("jwt");
@@ -21,6 +22,6 @@ export const useUserStore = create<UserStore>((set) => {
 
   return {
     currentUser: decodedUser,
-    setCurrentUser: (user: JwtPayload | null) => set({ currentUser: user }),
+    setCurrentUser: (user: User | null) => set({ currentUser: user }),
   };
 });

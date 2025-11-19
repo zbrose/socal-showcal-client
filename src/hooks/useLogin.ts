@@ -2,7 +2,7 @@ import { useUserStore } from "@/store/userStore";
 import { LoginForm } from "@/types/loginForm";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 type ErrorResponse = {
   msg: string;
@@ -25,8 +25,17 @@ export const useLogin = () => {
       }
       localStorage.setItem("jwt", token);
       try {
-        const decoded = jwtDecode<JwtPayload>(token);
-        setCurrentUser(decoded);
+        const decoded = jwtDecode<{
+          id: string;
+          username: string;
+          email: string;
+        }>(token);
+
+        setCurrentUser({
+          id: decoded.id,
+          username: decoded.username,
+          email: decoded.email,
+        });
       } catch (error) {
         console.log(error);
         setCurrentUser(null);

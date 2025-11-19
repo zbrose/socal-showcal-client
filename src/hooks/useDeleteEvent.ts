@@ -16,7 +16,7 @@ export const useDeleteEvent = () => {
       );
     },
     onSuccess: async () => {
-      await queryClient.refetchQueries({ queryKey: ["getEvents"] });
+      await queryClient.invalidateQueries({ queryKey: ["getEvents"] });
     },
   });
 };
