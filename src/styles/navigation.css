@@ -20,3 +20,13 @@
   color: var(--primary-black);
   transform: translateY(-1px);
 }
+
+.address-link {
+  width: fit-content;
+  color: white;
+  padding: 0.5rem 0;
+  transition: all var(--transition-speed);
+}
+.address-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

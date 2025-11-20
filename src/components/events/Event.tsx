@@ -26,40 +26,45 @@ const Event = ({ event }: EventProps) => {
 
   return (
     <div className="event" style={{ backgroundColor: `${event.color}` }}>
-      <div>
+      <div className="event-header">
         <h2 className="event-title">
           {event.title} @{" "}
           {event.venue !== "Custom Address" ? event.venue : event.customVenue}
         </h2>
-        <p>
-          {dayjs(`${event.date}${event.time}`).format("MMMM D, YYYY @ h:mma")}
-        </p>
-        <a
-          target="_blank"
-          rel="noreferrer"
-          href={`http://www.google.com/maps/?q=${event.address}`}
-        >
-          {event.address}
-        </a>
-        <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
-        <p>{event.details && event.details}</p>
-        <p>Posted by: {isCurrentUser ? "You" : event?.user[0]?.username}</p>
-
-        {event.link && (
-          <a href={event.link} target="_blank" rel="noreferrer">
-            Get Tickets
-          </a>
+        {isCurrentUser && (
+          <EventFooter
+            event={event}
+            confirmation={confirmation}
+            handleConfirmation={handleConfirmation}
+            setConfirmation={setConfirmation}
+            handleDelete={handleDelete}
+          />
         )}
       </div>
+      <p>
+        {dayjs(`${event.date}${event.time}`).format("MMMM D, YYYY @ h:mma")}
+      </p>
+      <a
+        className="address-link"
+        target="_blank"
+        rel="noreferrer"
+        href={`http://www.google.com/maps/?q=${event.address}`}
+      >
+        {event.address}
+      </a>
+      <p>{event.cover ? `$${event.cover} cover` : "Free"}</p>
+      <p>{event.details && event.details}</p>
+      <p>Posted by: {isCurrentUser ? "You" : event?.user[0]?.username}</p>
 
-      {isCurrentUser && (
-        <EventFooter
-          event={event}
-          confirmation={confirmation}
-          handleConfirmation={handleConfirmation}
-          setConfirmation={setConfirmation}
-          handleDelete={handleDelete}
-        />
+      {event.link && (
+        <a
+          className="address-link"
+          href={event.link}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Get Tickets
+        </a>
       )}
     </div>
   );
