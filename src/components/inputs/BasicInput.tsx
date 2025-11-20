@@ -1,4 +1,4 @@
-import { useFormContext } from "react-hook-form";
+import { FieldValues, useFormContext, Validate } from "react-hook-form";
 
 interface BasicInputProps {
   name: string;
@@ -8,6 +8,10 @@ interface BasicInputProps {
   required?: boolean;
   disabled?: boolean;
   min?: number;
+  validateFn?:
+    | Validate<any, FieldValues>
+    | Record<string, Validate<any, FieldValues>>
+    | undefined;
 }
 
 const BasicInput = ({
@@ -18,11 +22,14 @@ const BasicInput = ({
   required,
   disabled,
   min,
+  validateFn,
 }: BasicInputProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
+
+  const error = errors[name] as any;
 
   return (
     <div className="input-container">
@@ -36,13 +43,13 @@ const BasicInput = ({
         id={name}
         min={min}
         placeholder={placeholder}
-        {...register(name, { required: required })}
+        {...register(name, { required: required, validate: validateFn })}
         disabled={disabled}
       />
 
-      {errors[name]?.type === "required" && (
+      {error && (
         <p className="error" role="alert">
-          {name} is required
+          {error.message ?? `${name} is required`}
         </p>
       )}
     </div>
