@@ -16,7 +16,6 @@
 .button:hover {
   background-color: var(--primary-white);
   color: var(--primary-black);
-  /* transform: translateY(-1px); */
 }
 
 .button:focus {
@@ -30,6 +29,57 @@
   border-color: grey;
 }
 
+/* Utility/modifier classes — compose on top of `.button` */
+.button--ghost {
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.button--mono {
+  font-family: "Roboto Mono", serif;
+}
+
+.button--link {
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.button--small {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.button--danger {
+  background-color: red;
+  border: none;
+  color: var(--primary-white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.button--danger:hover {
+  background-color: white;
+  color: red;
+}
+
+.button--large {
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Keep specific positioned buttons separate */
 .log-out-button {
   font-family: inherit;
   border: none;

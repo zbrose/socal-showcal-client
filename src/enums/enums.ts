@@ -20,6 +20,6 @@ export const Enums = {
     NO_EVENTS: "No upcoming events were found.",
     DELETE: "Delete",
     CANCEL: "Cancel",
-    ASK: "Are you sure?",
+    ASK: "delete event?",
   },
 } as const;

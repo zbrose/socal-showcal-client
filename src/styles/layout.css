@@ -77,12 +77,6 @@ form {
   align-items: stretch;
 }
 
-.logged-in {
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
 .alert {
   padding: 10px;
   margin: 10px 0;
