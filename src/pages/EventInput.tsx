@@ -133,6 +133,14 @@ const EventInput = () => {
               placeholder="address, city, state and zip"
               required={true}
               disabled={editEventPending || createEventPending}
+              validateFn={(value: any) => {
+                const pattern =
+                  /^\d+\s+[^\n,]+,\s*[A-Za-z\s'.-]+,\s*[A-Za-z]{2}\s*\d{5}$/i;
+                return (
+                  pattern.test(String(value || "").trim()) ||
+                  "Address format must be: 123 Street Name, City, State Code 12345"
+                );
+              }}
             />
           </>
         )}
