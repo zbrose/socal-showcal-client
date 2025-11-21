@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EventInput from "./pages/EventInput";
-import EventsPage from "./pages/Events";
+import EventsPage from "./pages/EventsPage";
 
 const Router = () => {
   return (

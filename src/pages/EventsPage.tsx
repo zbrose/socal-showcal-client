@@ -7,9 +7,11 @@ import Event from "@/components/events/Event";
 const EventsPage = () => {
   const { data: events, isLoading } = useGetEvents();
 
-  const sortedEvents = events.sort((a: EventType, b: EventType) => {
-    const aTime = a.date ? new Date(a.date).getTime() : 0;
-    const bTime = b.date ? new Date(b.date).getTime() : 0;
+  console.log(events);
+
+  const sortedEvents = events?.sort((a: EventType, b: EventType) => {
+    const aTime = a?.date ? new Date(a?.date).getTime() : 0;
+    const bTime = b?.date ? new Date(b?.date).getTime() : 0;
     return aTime - bTime;
   });
 
@@ -23,7 +25,7 @@ const EventsPage = () => {
       onError={(error, info) => console.error("Error caught:", error, info)}
     >
       <div className="events-container">
-        {events.length > 0 ? (
+        {events?.length > 0 ? (
           sortedEvents?.map((event: EventType) => (
             <Event key={event?._id} event={event} />
           ))
