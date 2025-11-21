@@ -13,7 +13,7 @@ interface EventFooterProps {
   handleDelete: () => void;
 }
 
-const EventFooter = ({
+const EventActions = ({
   event,
   confirmation,
   handleConfirmation,
@@ -59,4 +59,4 @@ const EventFooter = ({
   );
 };
 
-export default EventFooter;
+export default EventActions;

@@ -19,6 +19,10 @@ body {
   line-height: 1.5;
 }
 
+p {
+  margin: 0;
+}
+
 /* Accessibility and global motion settings */
 @media (prefers-reduced-motion: reduce) {
   * {
