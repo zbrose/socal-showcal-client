@@ -7,7 +7,7 @@ import { DevTool } from "@hookform/devtools";
 import PasswordInput from "@/components/inputs/PasswordInput";
 
 const Register = () => {
-  const { mutate: registerUser, isPending } = useRegister();
+  const { mutate: registerUser, isPending, error } = useRegister();
   const navigate = useNavigate();
   const methods = useForm<RegisterForm>({
     mode: "all",
@@ -27,9 +27,17 @@ const Register = () => {
     });
   };
 
+  console.log(error);
+
   return (
     <FormProvider {...methods}>
       <h1>Register: </h1>
+      {error && (
+        <p className="error">
+          {error.response?.data?.message ??
+            "An error occurred.  Please try again later."}
+        </p>
+      )}
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <BasicInput
           required={true}
@@ -75,6 +83,7 @@ const Register = () => {
           </NavLink>
         </div>
       </form>
+
       <DevTool control={methods.control} />
     </FormProvider>
   );

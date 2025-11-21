@@ -18,15 +18,19 @@ const EventInput = () => {
   const { mutate: createEvent, isPending: createEventPending } =
     useCreateEvent();
   const { mutate: editEvent, isPending: editEventPending } = useEditEvent();
+
   const foundEvent: CreateForm = events?.find(
     (event: EventType) => String(event._id) === params.id
   );
+
+  console.log(foundEvent);
 
   const [formData, setFormData] = useState<CreateForm>(foundEvent);
   const [color, setColor] = useState("");
 
   const methods = useForm<CreateForm>({
     mode: "all",
+    defaultValues: foundEvent ?? "",
   });
 
   const {
@@ -170,7 +174,7 @@ const EventInput = () => {
 
         <BasicInput
           type="number"
-          name="price"
+          name="cover"
           label="ticket price:"
           min={0}
           disabled={editEventPending || createEventPending}

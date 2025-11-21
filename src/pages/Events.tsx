@@ -11,13 +11,15 @@ const EventsPage = () => {
     return <h2>{Enums.LABELS.LOADING}</h2>;
   }
 
+  console.log(events);
+
   return (
     <ErrorBoundary
       fallback={<h2>There was an error getting events. Check back later.</h2>}
       onError={(error, info) => console.error("Error caught:", error, info)}
     >
       <div className="events-container">
-        {events ? (
+        {events.length > 0 ? (
           events?.map((event: EventType) => (
             <Event key={event?._id} event={event} />
           ))

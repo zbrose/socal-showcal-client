@@ -35,6 +35,21 @@ const venues = [
     address: "5043 York Blvd, Los Angeles, CA 90042",
   },
   {
+    id: 9,
+    name: "Troubadour",
+    address: "9081 N Santa Monica Blvd, West Hollywood, CA 90069",
+  },
+  {
+    id: 10,
+    name: "Lodge Room",
+    address: "104 N Ave 56 2nd floor, Los Angeles, CA 90042",
+  },
+  {
+    id: 11,
+    name: "Healing Force of the Universe",
+    address: "1200 E Walnut St, Pasadena, CA 91106",
+  },
+  {
     id: 8,
     name: "Custom Address",
     address: "",
